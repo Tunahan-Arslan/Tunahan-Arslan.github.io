@@ -3,555 +3,850 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tunahan Arslan — Mobil Uygulama Geliştiricisi</title>
-<meta name="description" content="Flutter ve Firebase ile mobil uygulama ve oyun geliştiriyorum. Gaziantep.">
+<title>Tunahan Arslan — Mobil ve Bulut Geliştirici</title>
+<meta name="description" content="Flutter ve Firebase ile mobil uygulamalar, oyunlar ve bulut destekli sistemler geliştiriyorum. Gaziantep.">
 
-<!-- Sosyal medyada paylasildiginda gorunecek olanlar -->
 <meta property="og:title" content="Tunahan Arslan">
-<meta property="og:description" content="Flutter ve Firebase ile mobil uygulama ve oyun geliştiriyorum.">
+<meta property="og:description" content="Flutter ve Firebase ile mobil uygulamalar, oyunlar ve bulut destekli sistemler geliştiriyorum.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tunahan-arslan.github.io/">
 
 <style>
-  /* ---- palet: Tap Vault'un kendi renkleri ---- */
-  :root {
-    --bg:        #0E1116;
-    --surface:   #171C24;
-    --surface-2: #212936;
-    --border:    #262E3C;
-    --text:      #E8E9EE;
-    --muted:     #9AA0AD;
-    --dim:       #6F7684;
-    --accent:    #FFC542;
-    --accent-dk: #1A1300;
+/* ══════════════════════════════════════════════════════════
+   TASARIM DEGISKENLERI
+   ══════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #0B0E13;
+  --bg-2:      #0E1218;
+  --surface:   #141A23;
+  --surface-2: #1B2330;
+  --line:      #222B39;
+  --line-soft: #1A222E;
 
-    --max: 900px;
-    --ease: cubic-bezier(.22,.68,.36,1);
-  }
+  --text:  #ECEEF3;
+  --muted: #98A1B0;
+  --dim:   #6B7484;
 
-  * { box-sizing: border-box; }
+  --accent:  #FFC542;
+  --accent-2:#5C7CFF;
+  --accent-3:#FF5470;
+  --on-accent: #1A1300;
 
-  html { scroll-behavior: smooth; }
+  --max: 1120px;
+  --ease:  cubic-bezier(.22,.68,.36,1);
+  --ease-2: cubic-bezier(.16,1,.3,1);
 
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
+  --r-sm: 12px;
+  --r:    18px;
+  --r-lg: 26px;
+}
 
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
-  :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.7 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 22px; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+::selection { background: rgba(255,197,66,.28); }
 
-  /* ============================ HERO ============================ */
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
-  .hero {
-    position: relative;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    /* dokunma patlamasi burada dogar */
-    cursor: default;
-  }
+/* ince grain dokusu — sayfaya derinlik verir */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-  /* yavasca suzulen isik lekeleri */
-  .aurora { position: absolute; inset: -30%; z-index: 0; pointer-events: none; }
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: .5;
-    will-change: transform;
-  }
-  .blob.b1 {
-    width: 46vmax; height: 46vmax; top: 2%; left: -8%;
-    background: radial-gradient(circle, rgba(255,197,66,.30), transparent 68%);
-    animation: drift1 26s var(--ease) infinite alternate;
-  }
-  .blob.b2 {
-    width: 40vmax; height: 40vmax; top: 28%; right: -10%;
-    background: radial-gradient(circle, rgba(92,124,255,.26), transparent 68%);
-    animation: drift2 32s var(--ease) infinite alternate;
-  }
-  .blob.b3 {
-    width: 34vmax; height: 34vmax; bottom: -6%; left: 32%;
-    background: radial-gradient(circle, rgba(255,84,112,.18), transparent 68%);
-    animation: drift3 38s var(--ease) infinite alternate;
-  }
-  @keyframes drift1 { to { transform: translate3d(9vw, 7vh, 0) scale(1.12); } }
-  @keyframes drift2 { to { transform: translate3d(-11vw, 5vh, 0) scale(.9); } }
-  @keyframes drift3 { to { transform: translate3d(6vw, -8vh, 0) scale(1.15); } }
+/* okuma ilerleme cubugu */
+.progress {
+  position: fixed; top: 0; left: 0; height: 2px; z-index: 99;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width .1s linear;
+}
 
-  /* ince izgara dokusu */
-  .grid-tex {
-    position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background-image:
-      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
-    background-size: 54px 54px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 20%, transparent 78%);
-  }
+/* ══════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════ */
+.hero {
+  position: relative; min-height: 100svh;
+  display: flex; align-items: center;
+  padding: 110px 0 70px;
+  overflow: hidden;
+}
 
-  .hero-inner { position: relative; z-index: 2; width: 100%; padding: 96px 0; }
+.glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.glow i {
+  position: absolute; display: block; border-radius: 50%;
+  filter: blur(100px); opacity: .42; will-change: transform;
+}
+.glow i:nth-child(1) {
+  width: 44vmax; height: 44vmax; top: -12%; left: -12%;
+  background: radial-gradient(circle, rgba(255,197,66,.34), transparent 66%);
+  animation: float1 28s var(--ease) infinite alternate;
+}
+.glow i:nth-child(2) {
+  width: 38vmax; height: 38vmax; top: 18%; right: -14%;
+  background: radial-gradient(circle, rgba(92,124,255,.32), transparent 66%);
+  animation: float2 34s var(--ease) infinite alternate;
+}
+.glow i:nth-child(3) {
+  width: 30vmax; height: 30vmax; bottom: -16%; left: 38%;
+  background: radial-gradient(circle, rgba(255,84,112,.20), transparent 66%);
+  animation: float3 40s var(--ease) infinite alternate;
+}
+@keyframes float1 { to { transform: translate3d(10vw, 8vh, 0) scale(1.14); } }
+@keyframes float2 { to { transform: translate3d(-12vw, 6vh, 0) scale(.88); } }
+@keyframes float3 { to { transform: translate3d(7vw,-10vh, 0) scale(1.18); } }
 
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 9px;
-    font-size: 13px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--muted); font-weight: 600;
-    padding: 7px 14px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: rgba(23,28,36,.6);
-    backdrop-filter: blur(8px);
-  }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #3ddc84;
-    box-shadow: 0 0 0 0 rgba(61,220,132,.6);
-    animation: pulse 2.4s infinite;
-  }
-  @keyframes pulse {
-    70%  { box-shadow: 0 0 0 9px rgba(61,220,132,0); }
-    100% { box-shadow: 0 0 0 0 rgba(61,220,132,0); }
-  }
+.mesh {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 75% 65% at 40% 45%, #000 10%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 40% 45%, #000 10%, transparent 76%);
+}
 
-  h1 {
-    margin: 22px 0 0;
-    font-size: clamp(42px, 9vw, 82px);
-    line-height: 1.02;
-    letter-spacing: -.03em;
-    font-weight: 800;
-  }
-  h1 .shine {
-    background: linear-gradient(100deg, var(--accent) 10%, #fff3d0 45%, var(--accent) 80%);
-    background-size: 250% 100%;
-    -webkit-background-clip: text; background-clip: text;
-    color: transparent;
-    animation: shine 7s linear infinite;
-  }
-  @keyframes shine { to { background-position: -250% 0; } }
+.hero .wrap { position: relative; z-index: 2; }
+.hero-grid {
+  display: grid; grid-template-columns: 1.15fr .85fr;
+  gap: 56px; align-items: center;
+}
+@media (max-width: 940px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+}
 
-  .lede {
-    margin: 22px 0 0;
-    font-size: clamp(17px, 2.3vw, 21px);
-    color: var(--muted);
-    max-width: 40ch;
-  }
-  .lede strong { color: var(--text); font-weight: 600; }
+.pill {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 8px 15px; border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(20,26,35,.66);
+  backdrop-filter: blur(10px);
+  font-size: 12.5px; font-weight: 600; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted);
+}
+.ping { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #3DDC84; }
+.ping::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: #3DDC84; animation: ping 2.2s var(--ease) infinite;
+}
+@keyframes ping { to { transform: scale(3.4); opacity: 0; } }
 
-  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 22px; border-radius: 12px;
-    font-weight: 650; font-size: 15px;
-    border: 1px solid var(--border);
-    transition: transform .18s var(--ease), background .18s, border-color .18s;
-  }
-  .btn:hover { transform: translateY(-2px); text-decoration: none; }
-  .btn.primary {
-    background: var(--accent); color: var(--accent-dk); border-color: var(--accent);
-  }
-  .btn.primary:hover { box-shadow: 0 10px 30px -10px rgba(255,197,66,.65); }
-  .btn.ghost { background: rgba(23,28,36,.7); color: var(--text); }
-  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+h1 {
+  margin: 26px 0 0;
+  font-size: clamp(40px, 7.2vw, 76px);
+  line-height: 1.02; letter-spacing: -.035em; font-weight: 800;
+}
 
-  /* dokunma ipucu + sayac */
-  .tap-hint {
-    margin-top: 40px; font-size: 13.5px; color: var(--dim);
-    display: flex; align-items: center; gap: 8px;
-    transition: opacity .5s;
-  }
-  .tap-hint b { color: var(--accent); font-variant-numeric: tabular-nums; }
+/* donen rol yazisi */
+.roles {
+  height: 1.12em; overflow: hidden; position: relative;
+  display: block;
+}
+/* yalnizca rol kelimeleri — sarmalayici .roles-track disarida kalsin */
+.roles-track > span {
+  display: block; height: 1.12em; line-height: 1.12em;
+  background: linear-gradient(96deg, var(--accent), #FFE7A8 45%, var(--accent));
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+.roles-track { animation: roll 12s var(--ease-2) infinite; }
+@keyframes roll {
+  0%,   26% { transform: translateY(0); }
+  33%,  59% { transform: translateY(-1.12em); }
+  66%,  92% { transform: translateY(-2.24em); }
+  100%      { transform: translateY(-3.36em); }
+}
 
-  .coin {
-    position: fixed; z-index: 60; pointer-events: none;
-    font-size: 20px; will-change: transform, opacity;
-  }
+.lede {
+  margin: 26px 0 0; font-size: clamp(16.5px, 1.9vw, 19.5px);
+  color: var(--muted); max-width: 46ch;
+}
+.lede b { color: var(--text); font-weight: 620; }
 
-  .scroll-cue {
-    position: absolute; bottom: 26px; left: 50%; z-index: 2;
-    transform: translateX(-50%);
-    color: var(--dim); font-size: 12px; letter-spacing: .1em;
-    text-transform: uppercase;
-    animation: bob 2.6s ease-in-out infinite;
-  }
-  @keyframes bob { 50% { transform: translate(-50%, 9px); } }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 14px 24px; border-radius: var(--r-sm);
+  font-size: 15px; font-weight: 650;
+  border: 1px solid var(--line);
+  transition: transform .22s var(--ease), box-shadow .22s, border-color .22s, color .22s;
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-3px); }
+.btn.solid {
+  background: var(--accent); color: var(--on-accent); border-color: var(--accent);
+}
+.btn.solid:hover { box-shadow: 0 14px 34px -12px rgba(255,197,66,.7); }
+.btn.line { background: rgba(20,26,35,.6); color: var(--text); }
+.btn.line:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ============================ BOLUMLER ============================ */
+/* ---- telefon maketi ---- */
+.device-stage {
+  display: grid; place-items: center; perspective: 1200px;
+}
+@media (max-width: 940px) { .device-stage { display: none; } }
 
-  section { padding: 104px 0; }
+.device {
+  position: relative; width: 268px; height: 552px;
+  border-radius: 42px; padding: 11px;
+  background: linear-gradient(160deg, #2B3545, #131920 60%);
+  box-shadow:
+    0 60px 120px -40px rgba(0,0,0,.85),
+    0 0 0 1px rgba(255,255,255,.07) inset,
+    0 0 70px -18px rgba(255,197,66,.22);
+  animation: hover 7s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes hover {
+  0%,100% { transform: translateY(0)    rotateY(-13deg) rotateX(3deg); }
+  50%     { transform: translateY(-16px) rotateY(-9deg) rotateX(1deg); }
+}
+.notch {
+  position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+  width: 78px; height: 6px; border-radius: 99px; background: #0A0D12; z-index: 3;
+}
+.screen {
+  position: relative; width: 100%; height: 100%;
+  border-radius: 32px; overflow: hidden;
+  background: linear-gradient(170deg, #10151D, #0A0D12);
+}
 
-  .sec-head { margin-bottom: 44px; }
-  .sec-num {
-    font-size: 12.5px; letter-spacing: .16em; color: var(--accent);
-    font-weight: 700; text-transform: uppercase;
-  }
-  h2 {
-    margin: 10px 0 0;
-    font-size: clamp(27px, 4.4vw, 38px);
-    letter-spacing: -.02em; line-height: 1.15; font-weight: 750;
-  }
-  .sec-head p { margin: 12px 0 0; color: var(--muted); max-width: 56ch; }
+/* ekranda sirayla gecen 3 sahne */
+.scene {
+  position: absolute; inset: 0; padding: 42px 18px 18px;
+  opacity: 0; transform: translateY(14px);
+  animation: scenes 13.5s var(--ease-2) infinite;
+}
+.scene:nth-child(2) { animation-delay: 4.5s; }
+.scene:nth-child(3) { animation-delay: 9s; }
+@keyframes scenes {
+  0%              { opacity: 0; transform: translateY(14px); }
+  4%, 30%         { opacity: 1; transform: translateY(0); }
+  34%, 100%       { opacity: 0; transform: translateY(-14px); }
+}
 
-  /* -- ne yapiyorum -- */
-  .cards { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
-  @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+.bar { border-radius: 5px; background: var(--surface-2); }
+.bar.acc { background: linear-gradient(90deg, rgba(255,197,66,.85), rgba(255,197,66,.35)); }
+.bar.blue{ background: linear-gradient(90deg, rgba(92,124,255,.85), rgba(92,124,255,.3)); }
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 26px 24px 28px;
-    position: relative; overflow: hidden;
-    transition: transform .3s var(--ease), border-color .3s, background .3s;
-  }
-  .card::after {
-    content: ""; position: absolute; inset: 0;
-    background: radial-gradient(340px circle at var(--mx,50%) var(--my,0%),
-                rgba(255,197,66,.10), transparent 60%);
-    opacity: 0; transition: opacity .35s;
-    pointer-events: none;
-  }
-  .card:hover { transform: translateY(-5px); border-color: #33405480; }
-  .card:hover::after { opacity: 1; }
+.row-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px; margin-bottom: 9px;
+  border-radius: 12px; background: rgba(27,35,48,.75);
+  border: 1px solid rgba(255,255,255,.045);
+}
+.av { width: 28px; height: 28px; border-radius: 9px; flex: none;
+      background: linear-gradient(135deg, var(--accent), #C98F12); }
+.av.b { background: linear-gradient(135deg, var(--accent-2), #2E45A8); }
+.av.c { background: linear-gradient(135deg, var(--accent-3), #A32540); }
+.lines { flex: 1; display: grid; gap: 6px; }
 
-  .card .ico {
-    width: 42px; height: 42px; border-radius: 12px;
-    display: grid; place-items: center;
-    background: var(--surface-2);
-    color: var(--accent);
-    margin-bottom: 18px;
-  }
-  .card h3 { margin: 0 0 8px; font-size: 17.5px; font-weight: 700; }
-  .card p  { margin: 0; color: var(--muted); font-size: 14.8px; line-height: 1.65; }
+/* sahne 2: grafik */
+.chart { display: flex; align-items: flex-end; gap: 8px; height: 148px; margin-top: 18px; }
+.chart i {
+  flex: 1; border-radius: 6px 6px 2px 2px; display: block;
+  background: linear-gradient(180deg, rgba(255,197,66,.9), rgba(255,197,66,.12));
+  transform-origin: bottom;
+  animation: grow 2.4s var(--ease-2) infinite alternate;
+}
+.chart i:nth-child(2) { animation-delay: .15s; }
+.chart i:nth-child(3) { animation-delay: .3s;  }
+.chart i:nth-child(4) { animation-delay: .45s; }
+.chart i:nth-child(5) { animation-delay: .6s;  }
+@keyframes grow { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
 
-  /* -- one cikan proje -- */
-  .feature {
-    background: linear-gradient(160deg, var(--surface) 0%, #131820 100%);
-    border: 1px solid var(--border);
-    border-radius: 22px;
-    padding: 34px 30px;
-    position: relative; overflow: hidden;
-  }
-  .feature::before {
-    content: ""; position: absolute; top: -60%; right: -20%;
-    width: 60%; height: 200%;
-    background: radial-gradient(circle, rgba(255,197,66,.10), transparent 65%);
-    pointer-events: none;
-  }
-  .feature-top {
-    display: flex; align-items: flex-start; justify-content: space-between;
-    gap: 18px; flex-wrap: wrap;
-  }
-  .feature h3 { margin: 0; font-size: 26px; letter-spacing: -.02em; font-weight: 780; }
-  .badge {
-    font-size: 12px; font-weight: 700; letter-spacing: .06em;
-    text-transform: uppercase;
-    padding: 6px 12px; border-radius: 999px;
-    color: var(--accent);
-    background: rgba(255,197,66,.10);
-    border: 1px solid rgba(255,197,66,.28);
-    white-space: nowrap;
-  }
-  .feature > p { color: var(--muted); margin: 14px 0 0; max-width: 62ch; position: relative; }
+/* sahne 3: kod */
+.code { font: 11.5px/1.85 ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 14px; }
+.code div { white-space: nowrap; overflow: hidden; }
+.c-key { color: #C792EA; } .c-fn { color: var(--accent); }
+.c-str{ color: #9BE58B; } .c-dim{ color: var(--dim); }
 
-  .stats {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 14px; margin: 28px 0 26px; position: relative;
-  }
-  @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-  .stat {
-    background: rgba(14,17,22,.6);
-    border: 1px solid var(--border);
-    border-radius: 14px; padding: 16px 14px;
-  }
-  .stat b {
-    display: block; font-size: 25px; font-weight: 800; letter-spacing: -.02em;
-    font-variant-numeric: tabular-nums; color: var(--accent);
-  }
-  .stat span { font-size: 12.5px; color: var(--dim); }
+.scroll-hint {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  z-index: 2; font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--dim); animation: bob 2.8s ease-in-out infinite;
+}
+@keyframes bob { 50% { transform: translate(-50%, 10px); } }
 
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; position: relative; }
-  .chip {
-    font-size: 13px; padding: 6px 13px; border-radius: 999px;
-    background: var(--surface-2); color: var(--muted);
-    border: 1px solid var(--border);
-    transition: color .2s, border-color .2s, transform .2s var(--ease);
-  }
-  .chip:hover { color: var(--accent); border-color: rgba(255,197,66,.4); transform: translateY(-2px); }
+/* ══════════════════════════════════════════════════════════
+   BOLUM DUZENI
+   ══════════════════════════════════════════════════════════ */
+section { padding: 118px 0; position: relative; }
+section + section { border-top: 1px solid var(--line-soft); }
 
-  /* -- calisma bicimi listesi -- */
-  .list { display: grid; gap: 2px; }
-  .row {
-    display: grid; grid-template-columns: 116px 1fr;
-    gap: 22px; padding: 20px 4px;
-    border-bottom: 1px solid var(--border);
-  }
-  @media (max-width: 620px) {
-    .row { grid-template-columns: 1fr; gap: 6px; }
-  }
-  .row .k { color: var(--accent); font-weight: 650; font-size: 14px; padding-top: 2px; }
-  .row .v { color: var(--muted); font-size: 15px; }
-  .row .v b { color: var(--text); font-weight: 620; }
+.sec {
+  display: grid; grid-template-columns: 210px 1fr; gap: 56px;
+  align-items: start;
+}
+@media (max-width: 860px) { .sec { grid-template-columns: 1fr; gap: 30px; } }
 
-  /* -- iletisim -- */
-  .contact {
-    text-align: center;
-    border-top: 1px solid var(--border);
-    padding: 96px 0 40px;
-  }
-  .contact h2 { font-size: clamp(28px, 5vw, 42px); }
-  .contact p { color: var(--muted); margin: 14px auto 32px; max-width: 46ch; }
-  .mail {
-    display: inline-block; font-size: clamp(17px, 3.4vw, 25px);
-    font-weight: 700; letter-spacing: -.01em;
-    padding-bottom: 4px;
-    border-bottom: 2px solid rgba(255,197,66,.35);
-    transition: border-color .25s;
-  }
-  .mail:hover { border-color: var(--accent); text-decoration: none; }
+.sec-label { position: sticky; top: 46px; }
+@media (max-width: 860px) { .sec-label { position: static; } }
+.sec-num {
+  font: 700 12px/1 ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: .18em; color: var(--accent);
+}
+.sec-label h2 {
+  margin: 14px 0 0; font-size: clamp(23px, 3vw, 30px);
+  letter-spacing: -.025em; line-height: 1.2; font-weight: 750;
+}
+.sec-body > p.intro {
+  margin: 0 0 34px; font-size: clamp(17px, 2.1vw, 21px);
+  line-height: 1.62; color: var(--muted); max-width: 58ch;
+}
+.sec-body > p.intro b { color: var(--text); font-weight: 620; }
 
-  footer {
-    padding: 30px 0 46px; text-align: center;
-    color: var(--dim); font-size: 13px;
-  }
+/* ---- kartlar ---- */
+.cards { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
 
-  /* ---- kaydirinca beliren ogeler ---- */
-  .rv {
-    opacity: 0; transform: translateY(22px);
-    transition: opacity .7s var(--ease), transform .7s var(--ease);
-  }
-  .rv.in { opacity: 1; transform: none; }
+.card {
+  position: relative; overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 26px 24px 28px;
+  transition: transform .35s var(--ease), border-color .35s;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(320px circle at var(--mx,50%) var(--my,-20%),
+              rgba(255,197,66,.11), transparent 62%);
+  opacity: 0; transition: opacity .4s;
+}
+.card:hover { transform: translateY(-6px); border-color: #2E3A4B; }
+.card:hover::before { opacity: 1; }
+.card .ic {
+  width: 40px; height: 40px; border-radius: 11px; margin-bottom: 17px;
+  display: grid; place-items: center;
+  background: var(--surface-2); color: var(--accent);
+}
+.card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.card p  { margin: 0; color: var(--muted); font-size: 14.7px; line-height: 1.66; }
 
-  /* ---- hareket azaltma tercihi ---- */
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .blob, .dot, .scroll-cue, h1 .shine { animation: none !important; }
-    .rv { opacity: 1; transform: none; transition: none; }
-    * { transition-duration: .01ms !important; }
-  }
+/* ---- ne gelistiriyorum: numarali liste ---- */
+.builds { display: grid; gap: 0; }
+.build {
+  display: grid; grid-template-columns: 46px 1fr;
+  gap: 20px; padding: 26px 6px;
+  border-bottom: 1px solid var(--line-soft);
+  transition: padding-left .35s var(--ease);
+}
+.build:first-child { border-top: 1px solid var(--line-soft); }
+.build:hover { padding-left: 14px; }
+.build .n {
+  font: 700 13px/1 ui-monospace, Menlo, Consolas, monospace;
+  color: var(--dim); padding-top: 6px;
+  transition: color .3s;
+}
+.build:hover .n { color: var(--accent); }
+.build h3 { margin: 0 0 7px; font-size: 18.5px; font-weight: 700; letter-spacing: -.015em; }
+.build p  { margin: 0; color: var(--muted); font-size: 15px; max-width: 58ch; }
+
+/* ---- teknoloji seridi ---- */
+.marquee {
+  position: relative; overflow: hidden;
+  margin: 0 -24px 14px;
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+}
+.mq-track { display: flex; width: max-content; gap: 12px; padding: 6px 0; }
+.mq-a { animation: slideL 34s linear infinite; }
+.mq-b { animation: slideR 40s linear infinite; }
+@keyframes slideL { to { transform: translateX(-50%); } }
+@keyframes slideR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.marquee:hover .mq-track { animation-play-state: paused; }
+
+.tech {
+  flex: none; display: inline-flex; align-items: center; gap: 9px;
+  padding: 11px 19px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+  font-size: 14.5px; font-weight: 560; color: var(--muted);
+  white-space: nowrap;
+}
+.tech i {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none;
+}
+.tech.b i { background: var(--accent-2); }
+.tech.c i { background: var(--accent-3); }
+.tech.d i { background: #3DDC84; }
+
+.stack-note { color: var(--dim); font-size: 14px; margin: 22px 0 0; }
+
+/* ---- yapay zeka bolumu ---- */
+.ai {
+  position: relative; overflow: hidden;
+  background: linear-gradient(155deg, var(--surface) 0%, #0F141C 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 38px 34px;
+}
+.ai::before {
+  content: ""; position: absolute; top: -50%; right: -15%;
+  width: 55%; height: 200%; pointer-events: none;
+  background: radial-gradient(circle, rgba(92,124,255,.16), transparent 62%);
+  animation: aiPulse 9s ease-in-out infinite;
+}
+@keyframes aiPulse { 50% { opacity: .45; transform: scale(1.15); } }
+.ai h3 {
+  margin: 0 0 14px; font-size: clamp(20px, 2.6vw, 26px);
+  letter-spacing: -.02em; font-weight: 760; position: relative;
+}
+.ai p { margin: 0 0 14px; color: var(--muted); max-width: 62ch; position: relative; }
+.ai p:last-of-type { margin-bottom: 0; }
+.ai b { color: var(--text); font-weight: 620; }
+
+.ai-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-top: 28px; position: relative;
+}
+@media (max-width: 620px) { .ai-split { grid-template-columns: 1fr; } }
+.ai-col {
+  background: rgba(11,14,19,.55); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: 18px 18px 20px;
+}
+.ai-col h4 {
+  margin: 0 0 12px; font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dim); font-weight: 700;
+}
+.ai-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.ai-col li {
+  display: flex; gap: 10px; font-size: 14.5px; color: var(--muted); line-height: 1.55;
+}
+.ai-col li::before { content: "→"; color: var(--accent); flex: none; }
+.ai-col.me li::before { content: "✓"; color: #3DDC84; }
+
+/* ---- iletisim ---- */
+.contact { text-align: center; padding: 118px 0 56px; }
+.contact h2 {
+  margin: 16px 0 0; font-size: clamp(30px, 5.4vw, 50px);
+  letter-spacing: -.03em; font-weight: 800; line-height: 1.1;
+}
+.contact p { color: var(--muted); margin: 18px auto 36px; max-width: 44ch; }
+.mail {
+  display: inline-block; font-size: clamp(16px, 3.1vw, 24px);
+  font-weight: 700; letter-spacing: -.015em; color: var(--accent);
+  padding-bottom: 6px; position: relative;
+}
+.mail::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+  background: var(--accent); transform: scaleX(.25); transform-origin: left;
+  transition: transform .45s var(--ease-2);
+}
+.mail:hover::after { transform: scaleX(1); }
+
+footer {
+  padding: 34px 0 50px; text-align: center;
+  color: var(--dim); font-size: 13px;
+  border-top: 1px solid var(--line-soft);
+}
+footer a { color: var(--muted); }
+footer a:hover { color: var(--accent); }
+
+/* ---- kaydirinca belirme ---- */
+.rv { opacity: 0; transform: translateY(26px);
+      transition: opacity .8s var(--ease-2), transform .8s var(--ease-2); }
+.rv.in { opacity: 1; transform: none; }
+
+/* ---- hareket azaltma ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .glow i, .ping::after, .roles-track, .roles-track > span, .device, .scene,
+  .chart i, .mq-track, .scroll-hint, .ai::before { animation: none !important; }
+  .scene { opacity: 0; }
+  .scene:first-child { opacity: 1; transform: none; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  * { transition-duration: .01ms !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- ==================== HERO ==================== -->
-<header class="hero" id="hero">
-  <div class="aurora" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-  </div>
-  <div class="grid-tex" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-  <div class="hero-inner">
-    <div class="wrap">
-      <span class="eyebrow"><span class="dot"></span> Gaziantep · Yeni işlere açığım</span>
+<!-- ══════════════ HERO ══════════════ -->
+<header class="hero">
+  <div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="mesh" aria-hidden="true"></div>
 
-      <h1>Tunahan&nbsp;Arslan<br><span class="shine">mobil geliştirici</span></h1>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><span class="ping"></span> Gaziantep · Türkiye</span>
 
-      <p class="lede">
-        <strong>Flutter</strong> ve <strong>Firebase</strong> ile mobil uygulamalar
-        ve oyunlar yazıyorum. Arayüzünden veritabanı kurallarına, ekonomi
-        dengesinden yönetim paneline kadar tek başıma kurup ayakta tutuyorum.
-      </p>
+        <h1>
+          Tunahan Arslan
+          <span class="roles" aria-label="mobil uygulamalar, bulut sistemleri, oyun mekanikleri ve yönetim panelleri geliştiriyorum">
+            <span class="roles-track" aria-hidden="true">
+              <span>mobil uygulama</span>
+              <span>bulut sistemleri</span>
+              <span>oyun mekaniği</span>
+              <span>mobil uygulama</span>
+            </span>
+          </span>
+        </h1>
 
-      <div class="cta">
-        <a class="btn primary" href="#proje">
-          Ne yaptığıma bak
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="btn ghost" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-          GitHub
-        </a>
+        <p class="lede">
+          <b>Flutter</b> ve <b>Firebase</b> ile telefonda çalışan, buluta
+          bağlanan ürünler yazıyorum. Arayüzünden veritabanı kurallarına
+          kadar her katmanı tek başıma kurar, <b>yapay zekâ desteğiyle</b>
+          hızlandırırım.
+        </p>
+
+        <div class="cta">
+          <a class="btn solid" href="#nasil">
+            Nasıl çalıştığımı gör
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn line" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+          </a>
+        </div>
       </div>
 
-      <p class="tap-hint" id="hint">
-        <span id="hintText">Buraya dokun — tıklama oyunu yapan adamın sayfasındasın.</span>
-        <b id="tapCount" hidden>0</b>
-      </p>
+      <!-- telefon maketi -->
+      <div class="device-stage" aria-hidden="true">
+        <div class="device" id="device">
+          <div class="notch"></div>
+          <div class="screen">
+
+            <!-- sahne 1: liste arayuzu -->
+            <div class="scene">
+              <div class="bar" style="height:12px;width:58%;margin-bottom:20px"></div>
+              <div class="row-item">
+                <span class="av"></span>
+                <span class="lines">
+                  <span class="bar" style="height:7px;width:70%;display:block"></span>
+                  <span class="bar" style="height:6px;width:44%;display:block;opacity:.55"></span>
+                </span>
+              </div>
+              <div class="row-item">
+                <span class="av b"></span>
+                <span class="lines">
+                  <span class="bar" style="height:7px;width:58%;display:block"></span>
+                  <span class="bar" style="height:6px;width:36%;display:block;opacity:.55"></span>
+                </span>
+              </div>
+              <div class="row-item">
+                <span class="av c"></span>
+                <span class="lines">
+                  <span class="bar" style="height:7px;width:66%;display:block"></span>
+                  <span class="bar" style="height:6px;width:40%;display:block;opacity:.55"></span>
+                </span>
+              </div>
+              <div class="bar acc" style="height:38px;border-radius:12px;margin-top:18px"></div>
+            </div>
+
+            <!-- sahne 2: veri paneli -->
+            <div class="scene">
+              <div class="bar" style="height:12px;width:46%;margin-bottom:6px"></div>
+              <div class="bar" style="height:7px;width:66%;opacity:.5"></div>
+              <div class="chart"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="bar blue" style="height:8px;width:82%;margin-top:20px"></div>
+              <div class="bar" style="height:8px;width:60%;margin-top:9px"></div>
+              <div class="bar" style="height:8px;width:71%;margin-top:9px"></div>
+            </div>
+
+            <!-- sahne 3: kod -->
+            <div class="scene">
+              <div class="bar" style="height:10px;width:38%;margin-bottom:6px"></div>
+              <div class="code">
+                <div><span class="c-key">class</span> <span class="c-fn">Profile</span> {</div>
+                <div>&nbsp;&nbsp;<span class="c-key">final</span> String uid;</div>
+                <div>&nbsp;&nbsp;<span class="c-fn">sync</span>() <span class="c-key">async</span> {</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">await</span> db.<span class="c-fn">set</span>(</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">'users'</span>, me);</div>
+                <div>&nbsp;&nbsp;}</div>
+                <div>}</div>
+                <div class="c-dim">// tüm testler geçti ✓</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <span class="scroll-cue" aria-hidden="true">kaydır</span>
+  <span class="scroll-hint" aria-hidden="true">kaydır</span>
 </header>
 
 <main>
 
-<!-- ==================== NE YAPIYORUM ==================== -->
-<section id="isler">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="sec-num">01 — Ne yapıyorum</div>
-      <h2>Bir uygulamanın tamamı</h2>
-      <p>
-        Tek kişilik bir üründe her katman senin. Ekranı çizmek işin sadece
-        görünen kısmı; asıl iş, kimsenin fark etmediği yerlerin doğru
-        çalışmasında.
-      </p>
+<!-- ══════════════ 01 · NASIL BIR GELISTIRICI ══════════════ -->
+<section id="nasil">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">01</div>
+      <h2>Nasıl bir geliştiriciyim</h2>
     </div>
 
-    <div class="cards">
-      <article class="card rv">
-        <div class="ico" aria-hidden="true">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></svg>
-        </div>
-        <h3>Mobil uygulama</h3>
-        <p>
-          Flutter ile Android ve iOS. Akıcı arayüz, 90 Hz ekranda kare
-          bütçesine sığan animasyon, iki dilde yerelleştirme ve gerçek
-          cihazda ölçülmüş performans.
-        </p>
-      </article>
-
-      <article class="card rv">
-        <div class="ico" aria-hidden="true">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.66 3.58 3 8 3s8-1.34 8-3v-13"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
-        </div>
-        <h3>Bulut tarafı</h3>
-        <p>
-          Firebase Authentication, Cloud Firestore, Cloud Messaging ve
-          Hosting. Veriyi kimin okuyup yazabileceğini güvenlik kurallarıyla
-          satır satır tanımlarım — sunucu tutmadan.
-        </p>
-      </article>
-
-      <article class="card rv">
-        <div class="ico" aria-hidden="true">
-          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3.5 3.5L21 7"/></svg>
-        </div>
-        <h3>Ürün ve denge</h3>
-        <p>
-          Bir oyunun ekonomisi hisle değil sayıyla kurulur. Ödül eğrileri,
-          yükseltme maliyetleri ve düşme oranlarını testlerle sabitler,
-          yayından sonra panelden ayarlanabilir bırakırım.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== ONE CIKAN PROJE ==================== -->
-<section id="proje">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="sec-num">02 — Öne çıkan iş</div>
-      <h2>Tap Vault</h2>
-    </div>
-
-    <div class="feature rv">
-      <div class="feature-top">
-        <h3>Tıklama ve kasa açma oyunu</h3>
-        <span class="badge">Yakında Google Play'de</span>
-      </div>
-
-      <p>
-        Baştan sona kendi yazdığım bir mobil oyun. Oyuncu tıklayarak para
-        kazanıyor, kasa açıyor, nadir eşya topluyor ve sıralamada yarışıyor.
-        Görünen kısmın arkasında bulut kaydı, canlı sıralama tablosu,
-        çevrimdışı kazanç hesabı, günlük seri ödülleri, ödüllü reklamlar ve
-        oyunun ekonomisini yayından sonra ayarlayabildiğim bir web yönetim
-        paneli var.
+    <div class="sec-body">
+      <p class="intro rv">
+        Tek kişilik bir üründe her katman senin olur. Ekranı çizmek işin
+        görünen kısmı; asıl iş <b>kimsenin fark etmediği yerlerin doğru
+        çalışmasında</b>. Ben o kısımda vakit geçirmeyi seviyorum.
       </p>
 
-      <div class="stats">
-        <div class="stat"><b data-count="17700" data-suffix="+">0</b><span>satır Dart</span></div>
-        <div class="stat"><b data-count="214">0</b><span>otomatik test</span></div>
-        <div class="stat"><b data-count="2">0</b><span>dil · TR / EN</span></div>
-        <div class="stat"><b data-count="1">0</b><span>yönetim paneli</span></div>
-      </div>
+      <div class="cards">
+        <article class="card rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3.5 3.5L21 7"/></svg></div>
+          <h3>Tahmin etmem, ölçerim</h3>
+          <p>
+            Performans kararlarını hisle vermem. İki seçenek varsa ikisini de
+            gerçek cihazda çalıştırır, kare sürelerini ölçer, sonucu
+            gerekçesiyle kodun içine yazarım.
+          </p>
+        </article>
 
-      <div class="chips">
-        <span class="chip">Flutter</span>
-        <span class="chip">Dart</span>
-        <span class="chip">Firebase Auth</span>
-        <span class="chip">Cloud Firestore</span>
-        <span class="chip">Cloud Messaging</span>
-        <span class="chip">Firebase Hosting</span>
-        <span class="chip">Google AdMob</span>
-        <span class="chip">Flutter Web</span>
-        <span class="chip">Güvenlik kuralları</span>
-        <span class="chip">Yerelleştirme</span>
+        <article class="card rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <h3>Testle sabitlerim</h3>
+          <p>
+            Kuralları ve hesapları otomatik testlerle korurum. Bir şeyi bozan
+            değişiklik bana kullanıcıdan önce, test çıktısı olarak döner.
+          </p>
+        </article>
+
+        <article class="card rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+          <h3>Veriyi ciddiye alırım</h3>
+          <p>
+            Herkese açık olan ile kişiye özel olan en baştan farklı yerlerde
+            durur. Kullanıcı, verisini silmek istediğinde bunu tek başına
+            yapabilmeli.
+          </p>
+        </article>
+
+        <article class="card rv">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+          <h3>Nedenini yazarım</h3>
+          <p>
+            Kodda ne yaptığı değil, <b>neden</b> öyle yapıldığı yazar. Altı ay
+            sonra o satıra dönen kişi kararı yeniden çözmek zorunda kalmasın
+            diye.
+          </p>
+        </article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== CALISMA BICIMI ==================== -->
-<section id="bicim">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div class="sec-num">03 — Nasıl çalışırım</div>
-      <h2>Detayın peşini bırakmam</h2>
+<!-- ══════════════ 02 · NELER GELISTIRIYORUM ══════════════ -->
+<section id="neler">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">02</div>
+      <h2>Neler geliştiriyorum</h2>
     </div>
 
-    <div class="list">
-      <div class="row rv">
-        <div class="k">Ölçerim</div>
-        <div class="v">
-          Bir performans kararını tahminle vermem. Oyunun render motorunu
-          seçerken iki seçeneği de <b>gerçek cihazda profilledim</b>; kare
-          sürelerini ölçüp sonucu kodun içine gerekçesiyle yazdım.
+    <div class="sec-body">
+      <p class="intro rv">
+        Çoğunlukla <b>uçtan uca</b> çalışıyorum: fikirden mağazaya kadar olan
+        her adım aynı kişide.
+      </p>
+
+      <div class="builds">
+        <div class="build rv">
+          <div class="n">01</div>
+          <div>
+            <h3>Mobil uygulamalar</h3>
+            <p>
+              Flutter ile Android ve iOS. Akıcı arayüz, yüksek tazeleme hızlı
+              ekranlarda kare bütçesine sığan animasyon, çok dilli
+              yerelleştirme ve gerçek cihazda ölçülmüş performans.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="row rv">
-        <div class="k">Test ederim</div>
-        <div class="v">
-          Ekonomi kuralları, ödül eğrileri ve kayıt formatı <b>testlerle
-          korunur</b>. Dengeyi bozan bir değişiklik bana kullanıcıdan önce
-          test çıktısı olarak döner.
+
+        <div class="build rv">
+          <div class="n">02</div>
+          <div>
+            <h3>Mobil oyunlar</h3>
+            <p>
+              Oynanış döngüsü, ilerleme eğrisi ve ödül dengesi. Bir oyunun
+              ekonomisi hisle değil sayıyla kurulur — maliyet ve kazanç
+              eğrilerini testlerle sabitler, yayından sonra ayarlanabilir
+              bırakırım.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="row rv">
-        <div class="k">Yazarım</div>
-        <div class="v">
-          Kodda <b>neden</b> öyle yapıldığı yazar. Altı ay sonra o satıra
-          dönen kişi — genelde ben oluyorum — kararı yeniden çözmek zorunda
-          kalmasın diye.
+
+        <div class="build rv">
+          <div class="n">03</div>
+          <div>
+            <h3>Bulut destekli sistemler</h3>
+            <p>
+              Kimlik doğrulama, gerçek zamanlı veritabanı, bildirim ve
+              sıralama tabloları. Veriyi kimin okuyup yazabileceğini güvenlik
+              kurallarıyla satır satır tanımlarım — kendi sunucumu tutmadan.
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="row rv">
-        <div class="k">Korurum</div>
-        <div class="v">
-          Kullanıcı verisi en baştan ayrılır: herkese açık olan ile kişiye
-          özel olan <b>farklı yerlerde durur</b>. Hesabını silmek isteyen
-          oyuncu bunu uygulamanın içinden tek başına yapabilir.
+
+        <div class="build rv">
+          <div class="n">04</div>
+          <div>
+            <h3>Yönetim panelleri</h3>
+            <p>
+              Ürünü yayına aldıktan sonra ona müdahale edebilmek gerekir.
+              Kullanıcı desteği, canlı ayar ve denetim kaydı tutan web
+              panelleri yazarım; yapılan her işlem geri izlenebilir olur.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== ILETISIM ==================== -->
+<!-- ══════════════ 03 · NELERLE ══════════════ -->
+<section id="teknoloji">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">03</div>
+      <h2>Nelerle geliştiriyorum</h2>
+    </div>
+
+    <div class="sec-body">
+      <p class="intro rv">
+        Aracı işe göre seçerim, ama <b>derinleştiğim yer</b> Flutter ve
+        Firebase ekosistemi.
+      </p>
+    </div>
+  </div>
+
+  <div class="marquee rv" aria-hidden="true">
+    <div class="mq-track mq-a">
+      <span class="tech"><i></i>Flutter</span>
+      <span class="tech"><i></i>Dart</span>
+      <span class="tech b"><i></i>Firebase Auth</span>
+      <span class="tech b"><i></i>Cloud Firestore</span>
+      <span class="tech b"><i></i>Cloud Messaging</span>
+      <span class="tech b"><i></i>Firebase Hosting</span>
+      <span class="tech c"><i></i>Google AdMob</span>
+      <span class="tech d"><i></i>Güvenlik Kuralları</span>
+      <!-- kesintisiz akis icin ayni dizi bir kez daha -->
+      <span class="tech"><i></i>Flutter</span>
+      <span class="tech"><i></i>Dart</span>
+      <span class="tech b"><i></i>Firebase Auth</span>
+      <span class="tech b"><i></i>Cloud Firestore</span>
+      <span class="tech b"><i></i>Cloud Messaging</span>
+      <span class="tech b"><i></i>Firebase Hosting</span>
+      <span class="tech c"><i></i>Google AdMob</span>
+      <span class="tech d"><i></i>Güvenlik Kuralları</span>
+    </div>
+  </div>
+
+  <div class="marquee rv" aria-hidden="true">
+    <div class="mq-track mq-b">
+      <span class="tech d"><i></i>Flutter Web</span>
+      <span class="tech"><i></i>C#</span>
+      <span class="tech c"><i></i>JavaScript</span>
+      <span class="tech"><i></i>HTML &amp; CSS</span>
+      <span class="tech b"><i></i>Git &amp; GitHub</span>
+      <span class="tech"><i></i>Yerelleştirme</span>
+      <span class="tech d"><i></i>Otomatik Test</span>
+      <span class="tech c"><i></i>Performans Profilleme</span>
+      <span class="tech d"><i></i>Flutter Web</span>
+      <span class="tech"><i></i>C#</span>
+      <span class="tech c"><i></i>JavaScript</span>
+      <span class="tech"><i></i>HTML &amp; CSS</span>
+      <span class="tech b"><i></i>Git &amp; GitHub</span>
+      <span class="tech"><i></i>Yerelleştirme</span>
+      <span class="tech d"><i></i>Otomatik Test</span>
+      <span class="tech c"><i></i>Performans Profilleme</span>
+    </div>
+  </div>
+
+  <div class="wrap sec" style="padding-top:8px">
+    <div></div>
+    <p class="stack-note rv">
+      Listeye bir şey eklemeden önce onunla gerçek bir şey bitirmiş olmam
+      gerekir.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ 04 · YAPAY ZEKA ══════════════ -->
+<section id="yapayzeka">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">04</div>
+      <h2>Yapay zekâ ile çalışırım</h2>
+    </div>
+
+    <div class="sec-body">
+      <div class="ai rv">
+        <h3>Hızlandırıcı, karar verici değil</h3>
+        <p>
+          Geliştirmenin her aşamasında yapay zekâdan faydalanıyorum — taslak
+          kod, alternatif çözümler, dokümantasyon taraması, hata ayıklama.
+          Bunu saklamıyorum, çünkü <b>bugünün geliştirme biçimi bu</b>.
+        </p>
+        <p>
+          Ama üretilen hiçbir şey doğrulanmadan içeri girmiyor. Yapay zekâ
+          bana <b>hız</b> veriyor; <b>doğruluk</b> hâlâ benim işim. Testi ben
+          yazıyorum, ölçümü ben yapıyorum, mimarî kararı ben veriyorum ve
+          çıkan koda satır satır ben bakıyorum.
+        </p>
+
+        <div class="ai-split">
+          <div class="ai-col">
+            <h4>Yapay zekâya bırakırım</h4>
+            <ul>
+              <li>Tekrar eden kalıpları yazmak</li>
+              <li>Bilmediğim bir API'yi hızlıca taramak</li>
+              <li>Aynı işin ikinci bir çözümünü görmek</li>
+              <li>Uzun metinleri ve kayıtları özetlemek</li>
+            </ul>
+          </div>
+          <div class="ai-col me">
+            <h4>Bende kalır</h4>
+            <ul>
+              <li>Mimarî ve veri modeli kararları</li>
+              <li>Testler ve gerçek cihaz ölçümleri</li>
+              <li>Güvenlik kuralları ve veri gizliliği</li>
+              <li>Ürünün nasıl hissettirdiği</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ ILETISIM ══════════════ -->
 <section class="contact" id="iletisim">
-  <div class="wrap">
-    <div class="rv">
-      <div class="sec-num">04 — İletişim</div>
-      <h2>Bir fikrin mi var?</h2>
-      <p>
-        Proje teklifleri, iş birlikleri veya sadece merak ettiğin bir şey
-        için yazabilirsin. Mesajları okurum.
-      </p>
-      <a class="mail" href="mailto:arslantunahan.dev@gmail.com">arslantunahan.dev@gmail.com</a>
-      <div class="cta" style="justify-content:center;margin-top:30px">
-        <a class="btn ghost" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">GitHub</a>
-        <!-- İSTERSEN EKLE: LinkedIn, X, Instagram vb.
-        <a class="btn ghost" href="https://linkedin.com/in/KULLANICI-ADIN" target="_blank" rel="noopener">LinkedIn</a>
-        -->
-      </div>
+  <div class="wrap rv">
+    <div class="sec-num">05 — İletişim</div>
+    <h2>Bir fikrin mi var?</h2>
+    <p>
+      Proje teklifleri, iş birlikleri ya da sadece merak ettiğin bir şey için
+      yazabilirsin. Mesajları okurum.
+    </p>
+    <a class="mail" href="mailto:arslantunahan.dev@gmail.com">arslantunahan.dev@gmail.com</a>
+    <div class="cta" style="justify-content:center;margin-top:34px">
+      <a class="btn line" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">GitHub</a>
+      <!-- İSTERSEN AÇ:
+      <a class="btn line" href="https://linkedin.com/in/KULLANICI-ADIN" target="_blank" rel="noopener">LinkedIn</a>
+      -->
     </div>
   </div>
 </section>
@@ -559,7 +854,10 @@
 </main>
 
 <footer>
-  <div class="wrap">© <span id="yil">2026</span> Tunahan Arslan</div>
+  <div class="wrap">
+    © <span id="yil">2026</span> Tunahan Arslan ·
+    <a href="https://github.com/Tunahan-Arslan">github.com/Tunahan-Arslan</a>
+  </div>
 </footer>
 
 <script>
@@ -567,57 +865,39 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   document.getElementById("yil").textContent = new Date().getFullYear();
 
-  /* ---- kaydirinca belirme ---- */
-  var revealables = document.querySelectorAll(".rv");
+  /* ---- okuma ilerleme cubugu ---- */
+  var bar = document.getElementById("progress");
+  var ticking = false;
+  function updateProgress() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+    ticking = false;
+  }
+  window.addEventListener("scroll", function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+  updateProgress();
+
+  /* ---- kaydirinca belirme, gruplar sirayla ---- */
+  var items = document.querySelectorAll(".rv");
   if (!("IntersectionObserver" in window) || reduced) {
-    revealables.forEach(function (el) { el.classList.add("in"); });
+    items.forEach(function (el) { el.classList.add("in"); });
   } else {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        // ayni gruptakiler sirayla girsin, hepsi birden degil
-        var siblings = Array.prototype.slice.call(
-          entry.target.parentElement.querySelectorAll(".rv")
+        var group = Array.prototype.slice.call(
+          entry.target.parentElement.querySelectorAll(":scope > .rv")
         );
-        var i = Math.max(0, siblings.indexOf(entry.target));
-        entry.target.style.transitionDelay = Math.min(i * 90, 360) + "ms";
+        var i = Math.max(0, group.indexOf(entry.target));
+        entry.target.style.transitionDelay = Math.min(i * 85, 340) + "ms";
         entry.target.classList.add("in");
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
-
-    revealables.forEach(function (el) { io.observe(el); });
-  }
-
-  /* ---- sayilar sifirdan sayilsin ---- */
-  var counters = document.querySelectorAll("[data-count]");
-  function runCounter(el) {
-    var target = parseInt(el.dataset.count, 10);
-    var suffix = el.dataset.suffix || "";
-    if (reduced) { el.textContent = target.toLocaleString("tr-TR") + suffix; return; }
-
-    var dur = 1100, t0 = performance.now();
-    (function step(now) {
-      var p = Math.min(1, (now - t0) / dur);
-      var eased = 1 - Math.pow(1 - p, 3);          // yavaslayarak dursun
-      el.textContent = Math.round(target * eased).toLocaleString("tr-TR") + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    })(t0);
-  }
-  if ("IntersectionObserver" in window) {
-    var co = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        runCounter(e.target);
-        co.unobserve(e.target);
-      });
-    }, { threshold: 0.6 });
-    counters.forEach(function (el) { co.observe(el); });
-  } else {
-    counters.forEach(runCounter);
+    }, { threshold: 0.12, rootMargin: "0px 0px -70px 0px" });
+    items.forEach(function (el) { io.observe(el); });
   }
 
   /* ---- kartlarda imleci takip eden isik ---- */
@@ -631,60 +911,22 @@
     });
   }
 
-  /* ---- hero'ya dokununca coin patlamasi ---- */
-  var hero     = document.getElementById("hero");
-  var hint     = document.getElementById("hint");
-  var hintText = document.getElementById("hintText");
-  var counter  = document.getElementById("tapCount");
-  var taps = 0;
-
-  function burst(x, y) {
-    var n = 5 + Math.floor(Math.random() * 3);
-    for (var i = 0; i < n; i++) {
-      // let: her coin kendi degiskenini tutsun, yoksa onfinish hepsi icin
-      // dongunun son elemanini siler
-      let c = document.createElement("span");
-      c.className = "coin";
-      c.textContent = "🪙";
-      c.style.left = x + "px";
-      c.style.top  = y + "px";
-      document.body.appendChild(c);
-
-      let dx = (Math.random() - 0.5) * 190;
-      let dy = -(90 + Math.random() * 150);
-      let rot = (Math.random() - 0.5) * 520;
-
-      let anim = c.animate(
-        [
-          { transform: "translate(-50%,-50%) scale(.4) rotate(0deg)",  opacity: 1 },
-          { transform: "translate(calc(-50% + " + dx * 0.6 + "px), calc(-50% + " + dy + "px)) scale(1.15) rotate(" + rot * 0.6 + "deg)", opacity: 1, offset: .55 },
-          { transform: "translate(calc(-50% + " + dx + "px), calc(-50% + " + (dy + 210) + "px)) scale(.75) rotate(" + rot + "deg)", opacity: 0 }
-        ],
-        { duration: 950 + Math.random() * 350, easing: "cubic-bezier(.22,.68,.36,1)" }
-      );
-      anim.onfinish = function () { c.remove(); };
-    }
-  }
-
-  if (!reduced) {
-    hero.addEventListener("pointerdown", function (e) {
-      // baglantilara ve butonlara dokunmayi engelleme
-      if (e.target.closest("a, button")) return;
-
-      burst(e.clientX, e.clientY);
-      taps++;
-
-      if (taps === 1) {
-        hintText.textContent = "İşte böyle. Kazandığın:";
-        counter.hidden = false;
-      }
-      counter.textContent = (taps * 12).toLocaleString("tr-TR") + " 🪙";
-
-      if (taps === 25) hintText.textContent = "Tamam, oyunu beğendin galiba. Kazandığın:";
-      if (taps === 80) hintText.textContent = "Bunun tam bir oyunu var, aşağıda. Kazandığın:";
-    });
-  } else {
-    hint.style.display = "none";
+  /* ---- telefon imlece hafifce donsun ---- */
+  var device = document.getElementById("device");
+  if (device && !reduced && window.matchMedia("(hover: hover)").matches) {
+    var raf = null;
+    window.addEventListener("pointermove", function (e) {
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        var cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+        var rx = ((e.clientY - cy) / cy) * -5;
+        var ry = ((e.clientX - cx) / cx) * 9 - 11;
+        device.style.transform =
+          "rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+        device.style.animation = "none";   // yuzme animasyonunu devral
+        raf = null;
+      });
+    }, { passive: true });
   }
 })();
 </script>
