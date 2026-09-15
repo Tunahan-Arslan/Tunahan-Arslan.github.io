@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tunahan Arslan — Mobil ve Bulut Geliştirici</title>
-<meta name="description" content="Flutter ve Firebase ile mobil uygulamalar, oyunlar ve bulut destekli sistemler geliştiriyorum. Gaziantep.">
+<title>Tunahan Arslan — Full-Stack Yazılım & Mobil/Oyun Geliştirici</title>
+<meta name="description" content=".NET 8, C#, Clean Architecture, Flutter ve Unity ile kurumsal backend sistemleri, mobil uygulamalar ve yüksek performanslı oyun mimarileri geliştiriyorum.">
 
-<meta property="og:title" content="Tunahan Arslan">
-<meta property="og:description" content="Flutter ve Firebase ile mobil uygulamalar, oyunlar ve bulut destekli sistemler geliştiriyorum.">
+<meta property="og:title" content="Tunahan Arslan — Yazılım Mühendisi & Full-Stack Geliştirici">
+<meta property="og:description" content=".NET 8, Flutter ve Unity ile uçtan uca kurumsal SaaS, mobil ürünler ve oyun mimarileri geliştiriyorum.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tunahan-arslan.github.io/">
 
@@ -20,6 +20,7 @@
   --bg-2:      #0E1218;
   --surface:   #141A23;
   --surface-2: #1B2330;
+  --surface-3: #222B3A;
   --line:      #222B39;
   --line-soft: #1A222E;
 
@@ -27,15 +28,17 @@
   --muted: #98A1B0;
   --dim:   #6B7484;
 
-  --accent:  #FFC542;
-  --accent-2:#5C7CFF;
-  --accent-3:#FF5470;
-  --on-accent: #1A1300;
+  --accent:   #FFC542;
+  --accent-2: #5C7CFF;
+  --accent-3: #FF5470;
+  --accent-4: #3DDC84;
+  --on-accent:#1A1300;
 
-  --max: 1120px;
+  --max: 1160px;
   --ease:  cubic-bezier(.22,.68,.36,1);
   --ease-2: cubic-bezier(.16,1,.3,1);
 
+  --r-xs: 8px;
   --r-sm: 12px;
   --r:    18px;
   --r-lg: 26px;
@@ -60,18 +63,18 @@ a { color: inherit; text-decoration: none; }
 
 .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
-/* ince grain dokusu — sayfaya derinlik verir */
+/* Ince grain dokusu */
 body::after {
   content: ""; position: fixed; inset: 0; z-index: 100; pointer-events: none;
   opacity: .035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* okuma ilerleme cubugu */
+/* Okuma ilerleme cubugu */
 .progress {
   position: fixed; top: 0; left: 0; height: 2px; z-index: 99;
   width: 0%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-4));
   transition: width .1s linear;
 }
 
@@ -102,7 +105,7 @@ body::after {
 }
 .glow i:nth-child(3) {
   width: 30vmax; height: 30vmax; bottom: -16%; left: 38%;
-  background: radial-gradient(circle, rgba(255,84,112,.20), transparent 66%);
+  background: radial-gradient(circle, rgba(61,220,132,.18), transparent 66%);
   animation: float3 40s var(--ease) infinite alternate;
 }
 @keyframes float1 { to { transform: translate3d(10vw, 8vh, 0) scale(1.14); } }
@@ -121,12 +124,14 @@ body::after {
 
 .hero .wrap { position: relative; z-index: 2; }
 .hero-grid {
-  display: grid; grid-template-columns: 1.15fr .85fr;
+  display: grid; grid-template-columns: 1.18fr .82fr;
   gap: 56px; align-items: center;
 }
-@media (max-width: 940px) {
+@media (max-width: 960px) {
   .hero-grid { grid-template-columns: 1fr; gap: 48px; }
 }
+
+.pill-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
 .pill {
   display: inline-flex; align-items: center; gap: 9px;
@@ -137,6 +142,11 @@ body::after {
   font-size: 12.5px; font-weight: 600; letter-spacing: .07em;
   text-transform: uppercase; color: var(--muted);
 }
+.pill.available {
+  border-color: rgba(61,220,132,.35);
+  color: #B4F5CE;
+  background: rgba(61,220,132,.08);
+}
 .ping { position: relative; width: 7px; height: 7px; border-radius: 50%; background: #3DDC84; }
 .ping::after {
   content: ""; position: absolute; inset: 0; border-radius: 50%;
@@ -146,43 +156,43 @@ body::after {
 
 h1 {
   margin: 26px 0 0;
-  font-size: clamp(40px, 7.2vw, 76px);
-  line-height: 1.02; letter-spacing: -.035em; font-weight: 800;
+  font-size: clamp(38px, 6.4vw, 72px);
+  line-height: 1.04; letter-spacing: -.035em; font-weight: 800;
 }
 
-/* donen rol yazisi */
+/* Donen rol metni */
 .roles {
-  height: 1.12em; overflow: hidden; position: relative;
-  display: block;
+  height: 1.14em; overflow: hidden; position: relative;
+  display: block; margin-top: 4px;
 }
-/* yalnizca rol kelimeleri — sarmalayici .roles-track disarida kalsin */
 .roles-track > span {
-  display: block; height: 1.12em; line-height: 1.12em;
+  display: block; height: 1.14em; line-height: 1.14em;
   background: linear-gradient(96deg, var(--accent), #FFE7A8 45%, var(--accent));
   background-size: 200% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent;
   animation: shimmer 6s linear infinite;
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
-.roles-track { animation: roll 12s var(--ease-2) infinite; }
+.roles-track { animation: roll 14s var(--ease-2) infinite; }
 @keyframes roll {
-  0%,   26% { transform: translateY(0); }
-  33%,  59% { transform: translateY(-1.12em); }
-  66%,  92% { transform: translateY(-2.24em); }
-  100%      { transform: translateY(-3.36em); }
+  0%,   20% { transform: translateY(0); }
+  25%,  45% { transform: translateY(-1.14em); }
+  50%,  70% { transform: translateY(-2.28em); }
+  75%,  95% { transform: translateY(-3.42em); }
+  100%      { transform: translateY(-4.56em); }
 }
 
 .lede {
-  margin: 26px 0 0; font-size: clamp(16.5px, 1.9vw, 19.5px);
-  color: var(--muted); max-width: 46ch;
+  margin: 26px 0 0; font-size: clamp(16px, 1.8vw, 19px);
+  color: var(--muted); max-width: 52ch; line-height: 1.65;
 }
 .lede b { color: var(--text); font-weight: 620; }
 
 .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
 .btn {
   display: inline-flex; align-items: center; gap: 9px;
-  padding: 14px 24px; border-radius: var(--r-sm);
-  font-size: 15px; font-weight: 650;
+  padding: 13px 22px; border-radius: var(--r-sm);
+  font-size: 14.5px; font-weight: 650;
   border: 1px solid var(--line);
   transition: transform .22s var(--ease), box-shadow .22s, border-color .22s, color .22s;
   will-change: transform;
@@ -195,20 +205,20 @@ h1 {
 .btn.line { background: rgba(20,26,35,.6); color: var(--text); }
 .btn.line:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ---- telefon maketi ---- */
+/* ---- Interaktif sahne / maket ---- */
 .device-stage {
   display: grid; place-items: center; perspective: 1200px;
 }
-@media (max-width: 940px) { .device-stage { display: none; } }
+@media (max-width: 960px) { .device-stage { display: none; } }
 
 .device {
-  position: relative; width: 268px; height: 552px;
+  position: relative; width: 284px; height: 576px;
   border-radius: 42px; padding: 11px;
   background: linear-gradient(160deg, #2B3545, #131920 60%);
   box-shadow:
     0 60px 120px -40px rgba(0,0,0,.85),
     0 0 0 1px rgba(255,255,255,.07) inset,
-    0 0 70px -18px rgba(255,197,66,.22);
+    0 0 70px -18px rgba(92,124,255,.24);
   animation: hover 7s ease-in-out infinite;
   will-change: transform;
 }
@@ -218,7 +228,7 @@ h1 {
 }
 .notch {
   position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
-  width: 78px; height: 6px; border-radius: 99px; background: #0A0D12; z-index: 3;
+  width: 82px; height: 6px; border-radius: 99px; background: #0A0D12; z-index: 3;
 }
 .screen {
   position: relative; width: 100%; height: 100%;
@@ -226,41 +236,50 @@ h1 {
   background: linear-gradient(170deg, #10151D, #0A0D12);
 }
 
-/* ekranda sirayla gecen 3 sahne */
+/* Ekranda sirayla gecen 3 farkli sistem sahnesi */
 .scene {
-  position: absolute; inset: 0; padding: 42px 18px 18px;
+  position: absolute; inset: 0; padding: 44px 18px 18px;
   opacity: 0; transform: translateY(14px);
-  animation: scenes 13.5s var(--ease-2) infinite;
+  animation: scenes 15s var(--ease-2) infinite;
 }
-.scene:nth-child(2) { animation-delay: 4.5s; }
-.scene:nth-child(3) { animation-delay: 9s; }
+.scene:nth-child(2) { animation-delay: 5s; }
+.scene:nth-child(3) { animation-delay: 10s; }
 @keyframes scenes {
   0%              { opacity: 0; transform: translateY(14px); }
   4%, 30%         { opacity: 1; transform: translateY(0); }
   34%, 100%       { opacity: 0; transform: translateY(-14px); }
 }
 
+.scene-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.scene-tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.scene:nth-child(2) .scene-tag::before { background: var(--accent-2); }
+.scene:nth-child(3) .scene-tag::before { background: var(--accent-4); }
+
 .bar { border-radius: 5px; background: var(--surface-2); }
 .bar.acc { background: linear-gradient(90deg, rgba(255,197,66,.85), rgba(255,197,66,.35)); }
 .bar.blue{ background: linear-gradient(90deg, rgba(92,124,255,.85), rgba(92,124,255,.3)); }
+.bar.green{background: linear-gradient(90deg, rgba(61,220,132,.85), rgba(61,220,132,.3)); }
 
 .row-item {
   display: flex; align-items: center; gap: 10px;
-  padding: 11px; margin-bottom: 9px;
+  padding: 10px; margin-bottom: 8px;
   border-radius: 12px; background: rgba(27,35,48,.75);
   border: 1px solid rgba(255,255,255,.045);
 }
 .av { width: 28px; height: 28px; border-radius: 9px; flex: none;
       background: linear-gradient(135deg, var(--accent), #C98F12); }
 .av.b { background: linear-gradient(135deg, var(--accent-2), #2E45A8); }
-.av.c { background: linear-gradient(135deg, var(--accent-3), #A32540); }
+.av.c { background: linear-gradient(135deg, var(--accent-4), #167A42); }
 .lines { flex: 1; display: grid; gap: 6px; }
 
-/* sahne 2: grafik */
-.chart { display: flex; align-items: flex-end; gap: 8px; height: 148px; margin-top: 18px; }
+/* Sahne 2: Metrik & SaaS Finans Grafigi */
+.chart { display: flex; align-items: flex-end; gap: 7px; height: 130px; margin: 14px 0 18px; }
 .chart i {
   flex: 1; border-radius: 6px 6px 2px 2px; display: block;
-  background: linear-gradient(180deg, rgba(255,197,66,.9), rgba(255,197,66,.12));
+  background: linear-gradient(180deg, rgba(92,124,255,.9), rgba(92,124,255,.12));
   transform-origin: bottom;
   animation: grow 2.4s var(--ease-2) infinite alternate;
 }
@@ -270,18 +289,28 @@ h1 {
 .chart i:nth-child(5) { animation-delay: .6s;  }
 @keyframes grow { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
 
-/* sahne 3: kod */
-.code { font: 11.5px/1.85 ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 14px; }
+.stat-box {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;
+}
+.stat-item {
+  padding: 9px; border-radius: 9px; background: rgba(27,35,48,.6);
+  border: 1px solid rgba(255,255,255,.04);
+}
+.stat-item span { display: block; font-size: 9.5px; color: var(--dim); }
+.stat-item strong { font-size: 13px; color: #fff; }
+
+/* Sahne 3: Test ve Saf C# Kod Blogu */
+.code { font: 11px/1.75 ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 10px; }
 .code div { white-space: nowrap; overflow: hidden; }
 .c-key { color: #C792EA; } .c-fn { color: var(--accent); }
-.c-str{ color: #9BE58B; } .c-dim{ color: var(--dim); }
+.c-str{ color: #9BE58B; } .c-dim{ color: var(--dim); } .c-type{ color: #82AAFF; }
 
 .scroll-hint {
-  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
   z-index: 2; font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
   color: var(--dim); animation: bob 2.8s ease-in-out infinite;
 }
-@keyframes bob { 50% { transform: translate(-50%, 10px); } }
+@keyframes bob { 50% { transform: translate(-50%, 8px); } }
 
 /* ══════════════════════════════════════════════════════════
    BOLUM DUZENI
@@ -307,13 +336,13 @@ section + section { border-top: 1px solid var(--line-soft); }
 }
 .sec-body > p.intro {
   margin: 0 0 34px; font-size: clamp(17px, 2.1vw, 21px);
-  line-height: 1.62; color: var(--muted); max-width: 58ch;
+  line-height: 1.62; color: var(--muted); max-width: 60ch;
 }
 .sec-body > p.intro b { color: var(--text); font-weight: 620; }
 
-/* ---- kartlar ---- */
+/* ---- Kartlar ---- */
 .cards { display: grid; gap: 14px; grid-template-columns: repeat(2, 1fr); }
-@media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
+@media (max-width: 660px) { .cards { grid-template-columns: 1fr; } }
 
 .card {
   position: relative; overflow: hidden;
@@ -329,17 +358,17 @@ section + section { border-top: 1px solid var(--line-soft); }
               rgba(255,197,66,.11), transparent 62%);
   opacity: 0; transition: opacity .4s;
 }
-.card:hover { transform: translateY(-6px); border-color: #2E3A4B; }
+.card:hover { transform: translateY(-5px); border-color: #2E3A4B; }
 .card:hover::before { opacity: 1; }
 .card .ic {
-  width: 40px; height: 40px; border-radius: 11px; margin-bottom: 17px;
+  width: 42px; height: 42px; border-radius: 12px; margin-bottom: 17px;
   display: grid; place-items: center;
   background: var(--surface-2); color: var(--accent);
 }
 .card h3 { margin: 0 0 8px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
-.card p  { margin: 0; color: var(--muted); font-size: 14.7px; line-height: 1.66; }
+.card p  { margin: 0; color: var(--muted); font-size: 14.5px; line-height: 1.65; }
 
-/* ---- ne gelistiriyorum: numarali liste ---- */
+/* ---- Neler gelistiriyorum: numarali liste ---- */
 .builds { display: grid; gap: 0; }
 .build {
   display: grid; grid-template-columns: 46px 1fr;
@@ -356,9 +385,117 @@ section + section { border-top: 1px solid var(--line-soft); }
 }
 .build:hover .n { color: var(--accent); }
 .build h3 { margin: 0 0 7px; font-size: 18.5px; font-weight: 700; letter-spacing: -.015em; }
-.build p  { margin: 0; color: var(--muted); font-size: 15px; max-width: 58ch; }
+.build p  { margin: 0; color: var(--muted); font-size: 15px; max-width: 60ch; }
 
-/* ---- teknoloji seridi ---- */
+/* ══════════════════════════════════════════════════════════
+   03 · PROJELER & MIMARI COZUMLER
+   ══════════════════════════════════════════════════════════ */
+.project-grid {
+  display: grid; gap: 20px;
+  grid-template-columns: 1fr;
+}
+
+.project-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 32px 30px;
+  transition: transform .35s var(--ease), border-color .35s, box-shadow .35s;
+  overflow: hidden;
+}
+.project-card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(400px circle at var(--mx,50%) var(--my,-10%),
+              rgba(92,124,255,.09), transparent 60%);
+  opacity: 0; transition: opacity .4s;
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(92,124,255,.45);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,.6);
+}
+.project-card:hover::before { opacity: 1; }
+
+.project-header {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 14px;
+}
+.project-type {
+  font: 700 11px/1 ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); background: rgba(255,197,66,.1);
+  padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,197,66,.2);
+}
+.project-type.game { color: #82AAFF; background: rgba(92,124,255,.1); border-color: rgba(92,124,255,.25); }
+.project-type.saas { color: #3DDC84; background: rgba(61,220,132,.1); border-color: rgba(61,220,132,.25); }
+.project-type.ai   { color: #FF5470; background: rgba(255,84,112,.1); border-color: rgba(255,84,112,.25); }
+
+.project-card h3 {
+  margin: 0; font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 750; letter-spacing: -.02em; color: #fff;
+}
+.project-card p.desc {
+  margin: 12px 0 20px; font-size: 15px; color: var(--muted);
+  line-height: 1.68; max-width: 68ch;
+}
+
+.project-meta-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px; padding: 18px 0; border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft); margin-bottom: 20px;
+}
+.meta-item span {
+  display: block; font-size: 11.5px; font-weight: 650;
+  text-transform: uppercase; letter-spacing: .08em; color: var(--dim);
+}
+.meta-item strong {
+  display: block; font-size: 13.5px; color: var(--text); margin-top: 3px;
+  font-weight: 600;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  font-size: 12px; font-weight: 550; color: var(--muted);
+  background: var(--surface-2); padding: 5px 12px; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,.05);
+}
+
+/* ══════════════════════════════════════════════════════════
+   04 · İŞ BİRLİĞİ & FREELANCE MODELİ
+   ══════════════════════════════════════════════════════════ */
+.collab-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  margin-top: 24px;
+}
+@media (max-width: 740px) { .collab-grid { grid-template-columns: 1fr; } }
+
+.collab-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 30px 26px;
+}
+.collab-box h3 {
+  margin: 0 0 12px; font-size: 19px; font-weight: 750;
+  display: flex; align-items: center; gap: 10px;
+}
+.collab-box p {
+  margin: 0 0 18px; color: var(--muted); font-size: 14.5px; line-height: 1.62;
+}
+.collab-box ul {
+  margin: 0; padding: 0; list-style: none; display: grid; gap: 10px;
+}
+.collab-box li {
+  display: flex; gap: 10px; font-size: 14px; color: var(--text); line-height: 1.5;
+}
+.collab-box li::before {
+  content: "✓"; color: var(--accent-4); font-weight: 700; flex: none;
+}
+
+/* ══════════════════════════════════════════════════════════
+   05 · TEKNOLOJI SERIDI
+   ══════════════════════════════════════════════════════════ */
 .marquee {
   position: relative; overflow: hidden;
   margin: 0 -24px 14px;
@@ -366,8 +503,8 @@ section + section { border-top: 1px solid var(--line-soft); }
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
 }
 .mq-track { display: flex; width: max-content; gap: 12px; padding: 6px 0; }
-.mq-a { animation: slideL 34s linear infinite; }
-.mq-b { animation: slideR 40s linear infinite; }
+.mq-a { animation: slideL 38s linear infinite; }
+.mq-b { animation: slideR 42s linear infinite; }
 @keyframes slideL { to { transform: translateX(-50%); } }
 @keyframes slideR { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 .marquee:hover .mq-track { animation-play-state: paused; }
@@ -382,13 +519,14 @@ section + section { border-top: 1px solid var(--line-soft); }
 .tech i {
   width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none;
 }
-.tech.b i { background: var(--accent-2); }
-.tech.c i { background: var(--accent-3); }
-.tech.d i { background: #3DDC84; }
+.tech.net i  { background: #512BD4; }
+.tech.b i    { background: var(--accent-2); }
+.tech.c i    { background: var(--accent-3); }
+.tech.d i    { background: var(--accent-4); }
 
 .stack-note { color: var(--dim); font-size: 14px; margin: 22px 0 0; }
 
-/* ---- yapay zeka bolumu ---- */
+/* ---- 06 · Yapay zeka bolumu ---- */
 .ai {
   position: relative; overflow: hidden;
   background: linear-gradient(155deg, var(--surface) 0%, #0F141C 100%);
@@ -431,13 +569,13 @@ section + section { border-top: 1px solid var(--line-soft); }
 .ai-col li::before { content: "→"; color: var(--accent); flex: none; }
 .ai-col.me li::before { content: "✓"; color: #3DDC84; }
 
-/* ---- iletisim ---- */
+/* ---- 07 · Iletisim ---- */
 .contact { text-align: center; padding: 118px 0 56px; }
 .contact h2 {
   margin: 16px 0 0; font-size: clamp(30px, 5.4vw, 50px);
   letter-spacing: -.03em; font-weight: 800; line-height: 1.1;
 }
-.contact p { color: var(--muted); margin: 18px auto 36px; max-width: 44ch; }
+.contact p { color: var(--muted); margin: 18px auto 36px; max-width: 48ch; }
 .mail {
   display: inline-block; font-size: clamp(16px, 3.1vw, 24px);
   font-weight: 700; letter-spacing: -.015em; color: var(--accent);
@@ -458,12 +596,12 @@ footer {
 footer a { color: var(--muted); }
 footer a:hover { color: var(--accent); }
 
-/* ---- kaydirinca belirme ---- */
+/* ---- Kaydirinca belirme ---- */
 .rv { opacity: 0; transform: translateY(26px);
       transition: opacity .8s var(--ease-2), transform .8s var(--ease-2); }
 .rv.in { opacity: 1; transform: none; }
 
-/* ---- hareket azaltma ---- */
+/* ---- Hareket azaltma ---- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .glow i, .ping::after, .roles-track, .roles-track > span, .device, .scene,
@@ -487,31 +625,38 @@ footer a:hover { color: var(--accent); }
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="pill"><span class="ping"></span> Gaziantep · Türkiye</span>
+        <div class="pill-group">
+          <span class="pill"><span class="ping"></span> Gaziantep · Türkiye</span>
+          <span class="pill available">Tam Zamanlı &amp; Freelance Açık</span>
+        </div>
 
         <h1>
           Tunahan Arslan
-          <span class="roles" aria-label="mobil uygulamalar, bulut sistemleri, oyun mekanikleri ve yönetim panelleri geliştiriyorum">
+          <span class="roles" aria-label="kurumsal backend, mobil uygulama, oyun mimarisi ve tam kapsamlı çözümler geliştiriyorum">
             <span class="roles-track" aria-hidden="true">
-              <span>mobil uygulama</span>
-              <span>bulut sistemleri</span>
-              <span>oyun mekaniği</span>
-              <span>mobil uygulama</span>
+              <span>kurumsal backend</span>
+              <span>mobil &amp; live-ops</span>
+              <span>unity &amp; oyun motoru</span>
+              <span>tam kapsamlı çözümler</span>
+              <span>kurumsal backend</span>
             </span>
           </span>
         </h1>
 
         <p class="lede">
-          <b>Flutter</b> ve <b>Firebase</b> ile telefonda çalışan, buluta
-          bağlanan ürünler yazıyorum. Arayüzünden veritabanı kurallarına
-          kadar her katmanı tek başıma kurar, <b>yapay zekâ desteğiyle</b>
-          hızlandırırım.
+          <b>.NET 8 &amp; C#</b> ile çok kiracılı kurumsal SaaS altyapıları, 
+          <b>Flutter</b> ile canlı operasyonlu mobil ürünler ve 
+          <b>Unity</b> ile yüksek performanslı oyun mekanikleri geliştiriyorum. 
+          Gereksiz karmaşadan uzak, <b>ölçülebilir ve sürdürülebilir mimariler</b> kurarım.
         </p>
 
         <div class="cta">
-          <a class="btn solid" href="#nasil">
-            Nasıl çalıştığımı gör
+          <a class="btn solid" href="#projeler">
+            Geliştirdiğim Projeleri Gör
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn line" href="#hizmetler">
+            Neler Yapabilirim?
           </a>
           <a class="btn line" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -520,19 +665,20 @@ footer a:hover { color: var(--accent); }
         </div>
       </div>
 
-      <!-- telefon maketi -->
+      <!-- Interaktif sahne maketi -->
       <div class="device-stage" aria-hidden="true">
         <div class="device" id="device">
           <div class="notch"></div>
           <div class="screen">
 
-            <!-- sahne 1: liste arayuzu -->
+            <!-- Sahne 1: Mobil & Live-Ops (Flutter / Ganimet) -->
             <div class="scene">
-              <div class="bar" style="height:12px;width:58%;margin-bottom:20px"></div>
+              <div class="scene-tag">Mobil &amp; Canlı Operasyon</div>
+              <div class="bar" style="height:12px;width:58%;margin-bottom:16px"></div>
               <div class="row-item">
                 <span class="av"></span>
                 <span class="lines">
-                  <span class="bar" style="height:7px;width:70%;display:block"></span>
+                  <span class="bar" style="height:7px;width:72%;display:block"></span>
                   <span class="bar" style="height:6px;width:44%;display:block;opacity:.55"></span>
                 </span>
               </div>
@@ -550,31 +696,34 @@ footer a:hover { color: var(--accent); }
                   <span class="bar" style="height:6px;width:40%;display:block;opacity:.55"></span>
                 </span>
               </div>
-              <div class="bar acc" style="height:38px;border-radius:12px;margin-top:18px"></div>
+              <div class="bar acc" style="height:36px;border-radius:12px;margin-top:16px"></div>
             </div>
 
-            <!-- sahne 2: veri paneli -->
+            <!-- Sahne 2: Çok Kiracılı SaaS & Finans (BMS / .NET 8) -->
             <div class="scene">
+              <div class="scene-tag">BMS · Çok Kiracılı SaaS</div>
               <div class="bar" style="height:12px;width:46%;margin-bottom:6px"></div>
-              <div class="bar" style="height:7px;width:66%;opacity:.5"></div>
+              <div class="bar" style="height:7px;width:68%;opacity:.5"></div>
               <div class="chart"><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="bar blue" style="height:8px;width:82%;margin-top:20px"></div>
-              <div class="bar" style="height:8px;width:60%;margin-top:9px"></div>
-              <div class="bar" style="height:8px;width:71%;margin-top:9px"></div>
+              <div class="stat-box">
+                <div class="stat-item"><span>TAHSİLAT</span><strong>%98.4</strong></div>
+                <div class="stat-item"><span>OUTBOX</span><strong>0 Gecikme</strong></div>
+              </div>
+              <div class="bar blue" style="height:8px;width:82%;margin-top:16px"></div>
             </div>
 
-            <!-- sahne 3: kod -->
+            <!-- Sahne 3: Saf C# & Performans Motoru (ForgeFront / GameCore) -->
             <div class="scene">
-              <div class="bar" style="height:10px;width:38%;margin-bottom:6px"></div>
+              <div class="scene-tag">Unity · Saf C# Çekirdek</div>
               <div class="code">
-                <div><span class="c-key">class</span> <span class="c-fn">Profile</span> {</div>
-                <div>&nbsp;&nbsp;<span class="c-key">final</span> String uid;</div>
-                <div>&nbsp;&nbsp;<span class="c-fn">sync</span>() <span class="c-key">async</span> {</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">await</span> db.<span class="c-fn">set</span>(</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">'users'</span>, me);</div>
+                <div><span class="c-key">public sealed class</span> <span class="c-type">BattleLoop</span> {</div>
+                <div>&nbsp;&nbsp;<span class="c-key">private readonly</span> <span class="c-type">UnitPool</span> _pool;</div>
+                <div>&nbsp;&nbsp;<span class="c-key">public void</span> <span class="c-fn">Tick</span>(<span class="c-type">float</span> dt) {</div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-dim">// Sıfır GC tahsisi, 60 FPS</span></div>
+                <div>&nbsp;&nbsp;&nbsp;&nbsp;_pool.<span class="c-fn">ResolveCollisions</span>();</div>
                 <div>&nbsp;&nbsp;}</div>
                 <div>}</div>
-                <div class="c-dim">// tüm testler geçti ✓</div>
+                <div class="c-dim" style="margin-top:8px">// xUnit: 42 test yeşil ✓</div>
               </div>
             </div>
 
@@ -599,48 +748,41 @@ footer a:hover { color: var(--accent); }
 
     <div class="sec-body">
       <p class="intro rv">
-        Tek kişilik bir üründe her katman senin olur. Ekranı çizmek işin
-        görünen kısmı; asıl iş <b>kimsenin fark etmediği yerlerin doğru
-        çalışmasında</b>. Ben o kısımda vakit geçirmeyi seviyorum.
+        İster büyük bir ekibin parçası olayım ister tek başıma sıfırdan bir ürün kurayım;
+        asıl iş <b>göz önünde olmayan katmanların kusursuz çalışmasında</b> biter.
+        Mühendislik prensiplerimden ödün vermem.
       </p>
 
       <div class="cards">
         <article class="card rv">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 3.5 3.5L21 7"/></svg></div>
-          <h3>Tahmin etmem, ölçerim</h3>
+          <h3>Ölçer, Profil Çıkarırım</h3>
           <p>
-            Performans kararlarını hisle vermem. İki seçenek varsa ikisini de
-            gerçek cihazda çalıştırır, kare sürelerini ölçer, sonucu
-            gerekçesiyle kodun içine yazarım.
+            Performans varsayımla çözülmez. Mobil oyunda kare sürelerini (frame-time) ve draw call sayılarını; API'de bellek tahsisini ve veritabanı sorgu sürelerini gerçek ortamda ölçerim.
           </p>
         </article>
 
         <article class="card rv">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <h3>Testle sabitlerim</h3>
+          <h3>Test Odaklı Koruma</h3>
           <p>
-            Kuralları ve hesapları otomatik testlerle korurum. Bir şeyi bozan
-            değişiklik bana kullanıcıdan önce, test çıktısı olarak döner.
+            Oyun matematiğini, finans hesaplarını ve güvenlik kurallarını birim testlerle kilitlerim. Kritik bir hesaplamayı bozan kod, kullanıcıya varmadan test aşamasında yakalanır.
           </p>
         </article>
 
         <article class="card rv">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <h3>Veriyi ciddiye alırım</h3>
+          <h3>Veri ve Güvenlik Bütünlüğü</h3>
           <p>
-            Herkese açık olan ile kişiye özel olan en baştan farklı yerlerde
-            durur. Kullanıcı, verisini silmek istediğinde bunu tek başına
-            yapabilmeli.
+            Rol tabanlı yetkilendirme (RBAC), Firestore güvenlik kuralları ve finansal mutabakat sistemlerinde sıfır toleransla çalışırım. Kimsenin verisi başkasının ekranına sızamaz.
           </p>
         </article>
 
         <article class="card rv">
           <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-          <h3>Nedenini yazarım</h3>
+          <h3>Temiz ve Devredilebilir Kod</h3>
           <p>
-            Kodda ne yaptığı değil, <b>neden</b> öyle yapıldığı yazar. Altı ay
-            sonra o satıra dönen kişi kararı yeniden çözmek zorunda kalmasın
-            diye.
+            Tek kişilik işte de ekip projesinde de kodun neden o şekilde yazıldığı dokümante edilir. Benden sonra projeyi devralan yazılımcı veya müşteri için kod kendi kendini açıklar.
           </p>
         </article>
       </div>
@@ -648,29 +790,26 @@ footer a:hover { color: var(--accent); }
   </div>
 </section>
 
-<!-- ══════════════ 02 · NELER GELISTIRIYORUM ══════════════ -->
-<section id="neler">
+<!-- ══════════════ 02 · NELER YAPABILIRIM (HIZMETLER & ALANLAR) ══════════════ -->
+<section id="hizmetler">
   <div class="wrap sec">
     <div class="sec-label rv">
       <div class="sec-num">02</div>
-      <h2>Neler geliştiriyorum</h2>
+      <h2>Neler yapabilirim</h2>
     </div>
 
     <div class="sec-body">
       <p class="intro rv">
-        Çoğunlukla <b>uçtan uca</b> çalışıyorum: fikirden mağazaya kadar olan
-        her adım aynı kişide.
+        İşverenlerin ve freelance müşterilerin en çok ihtiyaç duyduğu <b>dört ana mühendislik alanında</b> uçtan uca teslimat yapabiliyorum.
       </p>
 
       <div class="builds">
         <div class="build rv">
           <div class="n">01</div>
           <div>
-            <h3>Mobil uygulamalar</h3>
+            <h3>Kurumsal Backend &amp; Çok Kiracılı (Multi-Tenant) SaaS</h3>
             <p>
-              Flutter ile Android ve iOS. Akıcı arayüz, yüksek tazeleme hızlı
-              ekranlarda kare bütçesine sığan animasyon, çok dilli
-              yerelleştirme ve gerçek cihazda ölçülmüş performans.
+              .NET 8 ve C# ile N-Tier / Clean mimaride servisler, PostgreSQL / SQL Server entegrasyonu, generic repository deseni, Outbox Pattern ile güvenilir asenkron olay yayımı, JWT / Cookie kimlik doğrulama ve metot seviyesinde önbellekli yetkilendirme.
             </p>
           </div>
         </div>
@@ -678,12 +817,9 @@ footer a:hover { color: var(--accent); }
         <div class="build rv">
           <div class="n">02</div>
           <div>
-            <h3>Mobil oyunlar</h3>
+            <h3>Mobil Uygulamalar &amp; Canlı Operasyon (Live-Ops)</h3>
             <p>
-              Oynanış döngüsü, ilerleme eğrisi ve ödül dengesi. Bir oyunun
-              ekonomisi hisle değil sayıyla kurulur — maliyet ve kazanç
-              eğrilerini testlerle sabitler, yayından sonra ayarlanabilir
-              bırakırım.
+              Flutter ile Android ve iOS için yüksek tazeleme hızlı akıcı arayüzler. Firebase Cloud Firestore, gerçek zamanlı veri akışı, katı güvenlik kuralları, dinamik etkinlik pencereleri (Live-ops boost) ve Node.js bildirim mikroservisleri.
             </p>
           </div>
         </div>
@@ -691,11 +827,9 @@ footer a:hover { color: var(--accent); }
         <div class="build rv">
           <div class="n">03</div>
           <div>
-            <h3>Bulut destekli sistemler</h3>
+            <h3>Oyun Mimarisi &amp; Performans Mühendisliği (Unity &amp; C#)</h3>
             <p>
-              Kimlik doğrulama, gerçek zamanlı veritabanı, bildirim ve
-              sıralama tabloları. Veriyi kimin okuyup yazabileceğini güvenlik
-              kurallarıyla satır satır tanımlarım — kendi sunucumu tutmadan.
+              Unity 6 LTS ile mobil strateji ve gündelik oyunlar. Oyun motorundan tamamen izole saf C# çekirdeği (GameCore), xUnit ile test edilebilirlik, Update döngüsünde sıfır Garbage Collection (zero-alloc) prensibi, nesne havuzları (object pooling) ve kilitli 60 FPS mobil optimizasyonu.
             </p>
           </div>
         </div>
@@ -703,11 +837,9 @@ footer a:hover { color: var(--accent); }
         <div class="build rv">
           <div class="n">04</div>
           <div>
-            <h3>Yönetim panelleri</h3>
+            <h3>Yönetim Panelleri, Finans &amp; Sistem Entegrasyonları</h3>
             <p>
-              Ürünü yayına aldıktan sonra ona müdahale edebilmek gerekir.
-              Kullanıcı desteği, canlı ayar ve denetim kaydı tutan web
-              panelleri yazarım; yapılan her işlem geri izlenebilir olur.
+              ASP.NET Core Razor Pages / MVC ile güçlü admin panelleri, banka ekstre ayrıştırma (ekstre &amp; hesap hareketi mutabakatı), dinamik filtreleme sistemleri ve Python destekli makine öğrenimi modellerinin REST API servisleri üzerinden entegrasyonu.
             </p>
           </div>
         </div>
@@ -716,114 +848,351 @@ footer a:hover { color: var(--accent); }
   </div>
 </section>
 
-<!-- ══════════════ 03 · NELERLE ══════════════ -->
-<section id="teknoloji">
+<!-- ══════════════ 03 · PROJELER & MIMARI COZUMLER ══════════════ -->
+<section id="projeler">
   <div class="wrap sec">
     <div class="sec-label rv">
       <div class="sec-num">03</div>
-      <h2>Nelerle geliştiriyorum</h2>
+      <h2>Öne çıkan projeler</h2>
     </div>
 
     <div class="sec-body">
       <p class="intro rv">
-        Aracı işe göre seçerim, ama <b>derinleştiğim yer</b> Flutter ve
-        Firebase ekosistemi.
+        Geliştirdiğim sistemlerin gücü <b>mimari disiplininden</b> gelir. Kodladığım ürünlerden bazı mühendislik kesitleri:
+      </p>
+
+      <div class="project-grid">
+
+        <!-- PROJE 1: FORGEFRONT -->
+        <article class="project-card rv">
+          <div class="project-header">
+            <div>
+              <span class="project-type game">Oyun Motoru &amp; Sistem Mimarisi</span>
+              <h3 style="margin-top:8px">ForgeFront — 3D/2D Mobil Strateji Motoru</h3>
+            </div>
+          </div>
+          <p class="desc">
+            Unity 6 (URP) üzerinde geliştirilen izometrik ekonomi ve gerçek zamanlı hat savaşı mekaniği. Oyun mantığı motor bağımlılığından tamamen arındırılarak saf C# (Pure C#) katmanında kurgulanmış ve harici xUnit testleri ile doğrulanmıştır.
+          </p>
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <span>Performans Bütçesi</span>
+              <strong>Sabit 60 FPS · &lt;150 Draw Call</strong>
+            </div>
+            <div class="meta-item">
+              <span>Bellek Yönetimi</span>
+              <strong>Zero-Alloc Update · Object Pooling</strong>
+            </div>
+            <div class="meta-item">
+              <span>Mimari Yaklaşım</span>
+              <strong>Pure C# GameCore · Code-First Sahne</strong>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Unity 6 LTS</span>
+            <span class="tag">C#</span>
+            <span class="tag">URP</span>
+            <span class="tag">xUnit Test</span>
+            <span class="tag">Decoupled Architecture</span>
+          </div>
+        </article>
+
+        <!-- PROJE 2: GANIMET (TAP VAULT) -->
+        <article class="project-card rv">
+          <div class="project-header">
+            <div>
+              <span class="project-type">Mobil Uygulama &amp; Canlı Operasyon</span>
+              <h3 style="margin-top:8px">Ganimet (Tap Vault) — Canlı Operasyonlu Mobil Ürün</h3>
+            </div>
+          </div>
+          <p class="desc">
+            Google Play üzerinde yayında olan, rekabet ve envanter odaklı mobil clicker oyunu. Uzaktan yönetim paneliyle canlı etkinlik pencereleri (Live-ops çarpanları), çevrimdışı ekonomi koruması, 9.5 KB'lık katı Firestore güvenlik kuralları ve Node.js bildirim mikroservisi ile uçtan uca inşa edildi.
+          </p>
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <span>Canlı Operasyon (Live-Ops)</span>
+              <strong>Anlık Çarpanlar · Otomatik Bitiş Pencereleri</strong>
+            </div>
+            <div class="meta-item">
+              <span>Güvenlik &amp; Hile Koruması</span>
+              <strong>İstemci Denetimi · Katı Firestore Rules</strong>
+            </div>
+            <div class="meta-item">
+              <span>Arka Plan Servisleri</span>
+              <strong>FCM Admin SDK · Node.js Notifier</strong>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Flutter</span>
+            <span class="tag">Dart</span>
+            <span class="tag">Firebase Firestore</span>
+            <span class="tag">Cloud Messaging</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">l10n Çoklu Dil</span>
+          </div>
+        </article>
+
+        <!-- PROJE 3: BMS - BINA & TESIS YONETIMI -->
+        <article class="project-card rv">
+          <div class="project-header">
+            <div>
+              <span class="project-type saas">Kurumsal SaaS &amp; Dağıtık Mimari</span>
+              <h3 style="margin-top:8px">BMS — Çok Kiracılı Tesis &amp; Finans Yönetim Platformu</h3>
+            </div>
+          </div>
+          <p class="desc">
+            Yönetim Şirketi → Site → Blok → Bağımsız Bölüm şeklinde 4 seviyeli hiyerarşik organizasyonu yöneten çok kiracılı (multi-tenant) kurumsal yönetim yazılımı. Güvenilir asenkron veri işlemleri için Outbox Pattern, banka ekstreleri (Halkbank vb.) ile finansal hareket mutabakat motoru ve metot seviyesinde yetki önbellekleme içerir.
+          </p>
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <span>Veri İzolasyonu</span>
+              <strong>Çok Kiracılı (Multi-Tenant) Hiyerarşi</strong>
+            </div>
+            <div class="meta-item">
+              <span>Dağıtık Olaylar</span>
+              <strong>Outbox Pattern · Güvenilir Kuyruk</strong>
+            </div>
+            <div class="meta-item">
+              <span>Finansal İşlemler</span>
+              <strong>Banka Ekstre Ayrıştırma · Çift Veritabanı Desteği</strong>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">.NET 8</span>
+            <span class="tag">ASP.NET Core</span>
+            <span class="tag">PostgreSQL / MSSQL</span>
+            <span class="tag">Entity Framework Core</span>
+            <span class="tag">Outbox Pattern</span>
+            <span class="tag">JWT &amp; Cookie Auth</span>
+          </div>
+        </article>
+
+        <!-- PROJE 4: MUM ARCHITECTURE & E-COMMERCE -->
+        <article class="project-card rv">
+          <div class="project-header">
+            <div>
+              <span class="project-type saas">Yazılım Altyapısı &amp; E-Ticaret</span>
+              <h3 style="margin-top:8px">MumArchitecture &amp; E-Ticaret / Emlak Altyapısı</h3>
+            </div>
+          </div>
+          <p class="desc">
+            Kurumsal ölçekli web uygulamaları için Domain, DataAccess, Business ve Web katmanlarını modülerleştiren referans mimari. Generic Repository deseni, dinamik filtreleme ve sorgulama kütüphaneleri, standartlaştırılmış servis yanıt sarmalayıcıları (SystemResult) ve tekrar kullanılabilir Razor TagHelper kütüphanesi.
+          </p>
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <span>Mimari Kalıp</span>
+              <strong>N-Tier Layered Architecture · Generic Repo</strong>
+            </div>
+            <div class="meta-item">
+              <span>Dinamik Sorgulama</span>
+              <strong>Generic Filter&lt;T&gt; · Sayfalama Motoru</strong>
+            </div>
+            <div class="meta-item">
+              <span>Bildirim Altyapısı</span>
+              <strong>Çok Kanallı Şablon Motoru (Email, Telegram)</strong>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">ASP.NET Core 8</span>
+            <span class="tag">Razor Pages</span>
+            <span class="tag">EF Core</span>
+            <span class="tag">Custom TagHelpers</span>
+            <span class="tag">Clean Architecture</span>
+          </div>
+        </article>
+
+        <!-- PROJE 5: EKG & KALP YETMEZLIGI AI -->
+        <article class="project-card rv">
+          <div class="project-header">
+            <div>
+              <span class="project-type ai">Yapay Zekâ &amp; Sistem Entegrasyonu</span>
+              <h3 style="margin-top:8px">Kardiyoloji &amp; EKG Yapay Zekâ Destekli Tanı Sistemi</h3>
+            </div>
+          </div>
+          <p class="desc">
+            Klinik verileri ve EKG sinyallerini analiz ederek kalp yetmezliği risk analizi sunan makine öğrenimi modellerinin kurumsal .NET web sistemiyle hibrit entegrasyonu. Python tabanlı mikroservis mimarisi ile eğitilen modeller, ana kurumsal panel üzerinden hekimlere anlık karar desteği sunar.
+          </p>
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <span>Hibrit Entegrasyon</span>
+              <strong>.NET Core WebApp + Python Microservice</strong>
+            </div>
+            <div class="meta-item">
+              <span>Analitik Kapasite</span>
+              <strong>EKG Sinyal İşleme &amp; Klinik Risk Sınıflandırma</strong>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">C# / .NET</span>
+            <span class="tag">Machine Learning</span>
+            <span class="tag">REST API Microservice</span>
+            <span class="tag">Sağlık Bilişimi</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 04 · İŞ BİRLİĞİ VE ÇALIŞMA BİÇİMİ ══════════════ -->
+<section id="isbirligi">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">04</div>
+      <h2>Birlikte nasıl çalışabiliriz?</h2>
+    </div>
+
+    <div class="sec-body">
+      <p class="intro rv">
+        İster bir şirketin bünyesinde uzun soluklu bir ürün geliştirelim, ister tek seferlik freelance bir projeyi anahtar teslim hayata geçirelim; her iki modelde de <b>net ve şeffaf bir süreç</b> sunarım.
+      </p>
+
+      <div class="collab-grid">
+        <div class="collab-box rv">
+          <h3>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Şirketler &amp; Ekipler İçin (Full-Time)
+          </h3>
+          <p>
+            Mevcut ekibinizin hızını kesmeden, kurumsal standartlarda kod yazarak projelere doğrudan değer katarım.
+          </p>
+          <ul>
+            <li>Clean Architecture ve SOLID standartlarında genişletilebilir kod</li>
+            <li>Birim (unit) testleri ile güvenli ve regresyonsuz geliştirme</li>
+            <li>Git branching (Gitflow/trunk-based) ve CI/CD süreçlerine uyum</li>
+            <li>Ekip içi şeffaf iletişim ve zamanında teslim disiplini</li>
+          </ul>
+        </div>
+
+        <div class="collab-box rv">
+          <h3>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent-4)"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            Freelance &amp; Anahtar Teslim Projeler
+          </h3>
+          <p>
+            Fikir aşamasındaki ürününüzü baştan sona tek başıma kurup çalışan bir ürün halinde teslim edebilirim.
+          </p>
+          <ul>
+            <li>Veritabanı, Backend API ve Yönetim Panelinin sıfırdan inşası</li>
+            <li>Flutter ile Android &amp; iOS uyumlu akıcı mobil uygulama</li>
+            <li>Canlıya alma, mağaza yayını ve bulut güvenlik yapılandırması</li>
+            <li>Proje tesliminden sonra eksiksiz mimari ve kullanım dokümantasyonu</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 05 · TEKNOLOJILER ══════════════ -->
+<section id="teknoloji">
+  <div class="wrap sec">
+    <div class="sec-label rv">
+      <div class="sec-num">05</div>
+      <h2>Kullandığım teknolojiler</h2>
+    </div>
+
+    <div class="sec-body">
+      <p class="intro rv">
+        Aracı projenin ihtiyacına göre seçerim; listelediğim her teknolojiyi <b>gerçek projelerde bilfiil çalıştırarak</b> deneyimledim.
       </p>
     </div>
   </div>
 
   <div class="marquee rv" aria-hidden="true">
     <div class="mq-track mq-a">
+      <span class="tech net"><i></i>.NET 8 &amp; C#</span>
+      <span class="tech net"><i></i>ASP.NET Core</span>
+      <span class="tech b"><i></i>Entity Framework Core</span>
+      <span class="tech d"><i></i>PostgreSQL</span>
+      <span class="tech b"><i></i>MS SQL Server</span>
       <span class="tech"><i></i>Flutter</span>
       <span class="tech"><i></i>Dart</span>
-      <span class="tech b"><i></i>Firebase Auth</span>
-      <span class="tech b"><i></i>Cloud Firestore</span>
-      <span class="tech b"><i></i>Cloud Messaging</span>
-      <span class="tech b"><i></i>Firebase Hosting</span>
-      <span class="tech c"><i></i>Google AdMob</span>
-      <span class="tech d"><i></i>Güvenlik Kuralları</span>
-      <!-- kesintisiz akis icin ayni dizi bir kez daha -->
+      <span class="tech b"><i></i>Unity 6 LTS</span>
+      <span class="tech c"><i></i>Firebase Firestore</span>
+      <span class="tech d"><i></i>Outbox Pattern</span>
+      <!-- dongu devami -->
+      <span class="tech net"><i></i>.NET 8 &amp; C#</span>
+      <span class="tech net"><i></i>ASP.NET Core</span>
+      <span class="tech b"><i></i>Entity Framework Core</span>
+      <span class="tech d"><i></i>PostgreSQL</span>
+      <span class="tech b"><i></i>MS SQL Server</span>
       <span class="tech"><i></i>Flutter</span>
       <span class="tech"><i></i>Dart</span>
-      <span class="tech b"><i></i>Firebase Auth</span>
-      <span class="tech b"><i></i>Cloud Firestore</span>
-      <span class="tech b"><i></i>Cloud Messaging</span>
-      <span class="tech b"><i></i>Firebase Hosting</span>
-      <span class="tech c"><i></i>Google AdMob</span>
-      <span class="tech d"><i></i>Güvenlik Kuralları</span>
+      <span class="tech b"><i></i>Unity 6 LTS</span>
+      <span class="tech c"><i></i>Firebase Firestore</span>
+      <span class="tech d"><i></i>Outbox Pattern</span>
     </div>
   </div>
 
   <div class="marquee rv" aria-hidden="true">
     <div class="mq-track mq-b">
-      <span class="tech d"><i></i>Flutter Web</span>
-      <span class="tech"><i></i>C#</span>
-      <span class="tech c"><i></i>JavaScript</span>
-      <span class="tech"><i></i>HTML &amp; CSS</span>
-      <span class="tech b"><i></i>Git &amp; GitHub</span>
-      <span class="tech"><i></i>Yerelleştirme</span>
-      <span class="tech d"><i></i>Otomatik Test</span>
-      <span class="tech c"><i></i>Performans Profilleme</span>
-      <span class="tech d"><i></i>Flutter Web</span>
-      <span class="tech"><i></i>C#</span>
-      <span class="tech c"><i></i>JavaScript</span>
-      <span class="tech"><i></i>HTML &amp; CSS</span>
-      <span class="tech b"><i></i>Git &amp; GitHub</span>
-      <span class="tech"><i></i>Yerelleştirme</span>
-      <span class="tech d"><i></i>Otomatik Test</span>
-      <span class="tech c"><i></i>Performans Profilleme</span>
+      <span class="tech d"><i></i>Multi-Tenant Architecture</span>
+      <span class="tech"><i></i>Clean Architecture</span>
+      <span class="tech b"><i></i>xUnit &amp; Birim Testleri</span>
+      <span class="tech c"><i></i>Zero-Alloc Game Loops</span>
+      <span class="tech d"><i></i>Cloud Messaging (FCM)</span>
+      <span class="tech"><i></i>Python &amp; REST Microservices</span>
+      <span class="tech b"><i></i>Razor Pages &amp; MVC</span>
+      <span class="tech"><i></i>Git &amp; GitHub</span>
+      <span class="tech c"><i></i>Banka Ekstre Ayrıştırma</span>
+      <span class="tech d"><i></i>Multi-Tenant Architecture</span>
+      <span class="tech"><i></i>Clean Architecture</span>
+      <span class="tech b"><i></i>xUnit &amp; Birim Testleri</span>
+      <span class="tech c"><i></i>Zero-Alloc Game Loops</span>
+      <span class="tech d"><i></i>Cloud Messaging (FCM)</span>
+      <span class="tech"><i></i>Python &amp; REST Microservices</span>
+      <span class="tech b"><i></i>Razor Pages &amp; MVC</span>
+      <span class="tech"><i></i>Git &amp; GitHub</span>
+      <span class="tech c"><i></i>Banka Ekstre Ayrıştırma</span>
     </div>
   </div>
 
   <div class="wrap sec" style="padding-top:8px">
     <div></div>
     <p class="stack-note rv">
-      Listeye bir şey eklemeden önce onunla gerçek bir şey bitirmiş olmam
-      gerekir.
+      Kodun güzelliği onu yazarken değil; bakımını yaparken ve büyütürken anlaşılır.
     </p>
   </div>
 </section>
 
-<!-- ══════════════ 04 · YAPAY ZEKA ══════════════ -->
+<!-- ══════════════ 06 · YAPAY ZEKA ILE CALISMA ══════════════ -->
 <section id="yapayzeka">
   <div class="wrap sec">
     <div class="sec-label rv">
-      <div class="sec-num">04</div>
-      <h2>Yapay zekâ ile çalışırım</h2>
+      <div class="sec-num">06</div>
+      <h2>Yapay zekâ ile çalışma disiplinim</h2>
     </div>
 
     <div class="sec-body">
       <div class="ai rv">
-        <h3>Hızlandırıcı, karar verici değil</h3>
+        <h3>Hızlandırıcı araç, karar verici mühendis</h3>
         <p>
-          Geliştirmenin her aşamasında yapay zekâdan faydalanıyorum — taslak
-          kod, alternatif çözümler, dokümantasyon taraması, hata ayıklama.
-          Bunu saklamıyorum, çünkü <b>bugünün geliştirme biçimi bu</b>.
+          Geliştirme döngümde yapay zekâdan bir hız çarpanı olarak faydalanıyorum: şablon kod oluşturma, API dokümantasyonu tarama, uç senaryo testleri üretme ve kod incelemeleri.
         </p>
         <p>
-          Ama üretilen hiçbir şey doğrulanmadan içeri girmiyor. Yapay zekâ
-          bana <b>hız</b> veriyor; <b>doğruluk</b> hâlâ benim işim. Testi ben
-          yazıyorum, ölçümü ben yapıyorum, mimarî kararı ben veriyorum ve
-          çıkan koda satır satır ben bakıyorum.
+          Ancak üretilen hiçbir çıktı doğrulanmadan depoya girmez. Yapay zekâ <b>hız</b> üretir; mimari tutarlılık, güvenlik kontrolleri, bellek optimizasyonu ve iş mantığının sağlamlığı <b>mühendislik sorumluluğumdadır</b>.
         </p>
 
         <div class="ai-split">
           <div class="ai-col">
-            <h4>Yapay zekâya bırakırım</h4>
+            <h4>Yapay zekâya emanet ettiklerim</h4>
             <ul>
-              <li>Tekrar eden kalıpları yazmak</li>
-              <li>Bilmediğim bir API'yi hızlıca taramak</li>
-              <li>Aynı işin ikinci bir çözümünü görmek</li>
-              <li>Uzun metinleri ve kayıtları özetlemek</li>
+              <li>Tekrar eden kalıp kodları hızla üretmek</li>
+              <li>Bilinmeyen API'leri ve uç dokümanları taramak</li>
+              <li>Alternatif algoritma ve çözüm yollarını listelemek</li>
+              <li>Birim testler için kapsamlı sınır durum girdileri üretmek</li>
             </ul>
           </div>
           <div class="ai-col me">
-            <h4>Bende kalır</h4>
+            <h4>Bende kalan temel sorumluluklar</h4>
             <ul>
-              <li>Mimarî ve veri modeli kararları</li>
-              <li>Testler ve gerçek cihaz ölçümleri</li>
-              <li>Güvenlik kuralları ve veri gizliliği</li>
-              <li>Ürünün nasıl hissettirdiği</li>
+              <li>Çok kiracılı veri modeli ve yazılım mimarisi kararları</li>
+              <li>Bellek profilleme, zero-alloc ve 60 FPS performans kilitleri</li>
+              <li>Güvenlik kuralları, veri gizliliği ve rol yetkilendirmeleri</li>
+              <li>Ürünün kullanıcıya hissettirdiği kalite ve kararlılık</li>
             </ul>
           </div>
         </div>
@@ -832,21 +1201,24 @@ footer a:hover { color: var(--accent); }
   </div>
 </section>
 
-<!-- ══════════════ ILETISIM ══════════════ -->
+<!-- ══════════════ 07 · ILETISIM ══════════════ -->
 <section class="contact" id="iletisim">
   <div class="wrap rv">
-    <div class="sec-num">05 — İletişim</div>
-    <h2>Bir fikrin mi var?</h2>
+    <div class="sec-num">07 — İletişim</div>
+    <h2>Bir projeniz veya iş teklifiniz mi var?</h2>
     <p>
-      Proje teklifleri, iş birlikleri ya da sadece merak ettiğin bir şey için
-      yazabilirsin. Mesajları okurum.
+      İster ekibiniz için yetkin bir yazılımcı arayışında olun, ister fikrinizi hayata geçirecek güvenilir bir freelance geliştiriciye ihtiyaç duyun. Detayları konuşalım.
     </p>
     <a class="mail" href="mailto:arslantunahan.dev@gmail.com">arslantunahan.dev@gmail.com</a>
     <div class="cta" style="justify-content:center;margin-top:34px">
-      <a class="btn line" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">GitHub</a>
-      <!-- İSTERSEN AÇ:
-      <a class="btn line" href="https://linkedin.com/in/KULLANICI-ADIN" target="_blank" rel="noopener">LinkedIn</a>
-      -->
+      <a class="btn solid" href="mailto:arslantunahan.dev@gmail.com">
+        Hemen E-posta Gönder
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn line" href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub Profili
+      </a>
     </div>
   </div>
 </section>
@@ -856,7 +1228,8 @@ footer a:hover { color: var(--accent); }
 <footer>
   <div class="wrap">
     © <span id="yil">2026</span> Tunahan Arslan ·
-    <a href="https://github.com/Tunahan-Arslan">github.com/Tunahan-Arslan</a>
+    <a href="https://github.com/Tunahan-Arslan" target="_blank" rel="noopener">github.com/Tunahan-Arslan</a> ·
+    Gaziantep, Türkiye
   </div>
 </footer>
 
@@ -867,7 +1240,7 @@ footer a:hover { color: var(--accent); }
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.getElementById("yil").textContent = new Date().getFullYear();
 
-  /* ---- okuma ilerleme cubugu ---- */
+  /* ---- Okuma ilerleme cubugu ---- */
   var bar = document.getElementById("progress");
   var ticking = false;
   function updateProgress() {
@@ -880,7 +1253,7 @@ footer a:hover { color: var(--accent); }
   }, { passive: true });
   updateProgress();
 
-  /* ---- kaydirinca belirme, gruplar sirayla ---- */
+  /* ---- Kaydirinca belirme, gruplar sirayla ---- */
   var items = document.querySelectorAll(".rv");
   if (!("IntersectionObserver" in window) || reduced) {
     items.forEach(function (el) { el.classList.add("in"); });
@@ -896,13 +1269,13 @@ footer a:hover { color: var(--accent); }
         entry.target.classList.add("in");
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -70px 0px" });
+    }, { threshold: 0.1, rootMargin: "0px 0px -60px 0px" });
     items.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---- kartlarda imleci takip eden isik ---- */
+  /* ---- Kartlarda imleci takip eden isik (cards ve project-cards) ---- */
   if (!reduced && window.matchMedia("(hover: hover)").matches) {
-    document.querySelectorAll(".card").forEach(function (card) {
+    document.querySelectorAll(".card, .project-card").forEach(function (card) {
       card.addEventListener("pointermove", function (e) {
         var r = card.getBoundingClientRect();
         card.style.setProperty("--mx", (e.clientX - r.left) + "px");
@@ -911,7 +1284,7 @@ footer a:hover { color: var(--accent); }
     });
   }
 
-  /* ---- telefon imlece hafifce donsun ---- */
+  /* ---- Telefon maketi imlece hafifce donsun ---- */
   var device = document.getElementById("device");
   if (device && !reduced && window.matchMedia("(hover: hover)").matches) {
     var raf = null;
@@ -923,7 +1296,7 @@ footer a:hover { color: var(--accent); }
         var ry = ((e.clientX - cx) / cx) * 9 - 11;
         device.style.transform =
           "rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
-        device.style.animation = "none";   // yuzme animasyonunu devral
+        device.style.animation = "none";
         raf = null;
       });
     }, { passive: true });
